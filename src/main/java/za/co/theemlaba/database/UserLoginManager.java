@@ -13,7 +13,7 @@ public class UserLoginManager {
     private static final String DATABASE_DIR = "database";
 
     public UserLoginManager() {
-        setDatabaseName("login.db");
+        setDatabaseName("User.db");
         initialiseDatabase();
         createEmailIndex();
     }
@@ -86,7 +86,6 @@ public class UserLoginManager {
         
         try (Connection conn = DriverManager.getConnection(URL);
             PreparedStatement statement = conn.prepareStatement(insertQuerry)) {
-            
             statement.setString(1, userName);
             statement.setString(2, userLastName);
             statement.setString(3, userEmail);
@@ -102,20 +101,70 @@ public class UserLoginManager {
     /**
      * Stores the cv of the user in the database.
      * @param userEmail The user's email address.
-     * @param userData The user's password.
+     * @param userData The user's cv.
      */
     public void storeUserData (String userEmail, String userData) {
         String insertQuerry = "UPDATE Users SET information = ? WHERE email = ?";
         
         try (Connection conn = DriverManager.getConnection(URL);
             PreparedStatement statement = conn.prepareStatement(insertQuerry)) {
-            
-            
             statement.setString(1, userData);
             statement.setString(2, userEmail);
             statement.executeUpdate();
-
             System.out.println("User data stored successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates the vs of the user in the database with a new one
+     * @param userEmail The user's email address.
+     * @param userData The user's password.
+     */
+    public void updateUserData (String userEmail, String userData) {
+        String updateQuery = "UPDATE Users SET information = ? WHERE email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+            statement.setString(1, userData);
+            statement.setString(2, userEmail);
+            statement.executeUpdate();
+            System.out.println("User data updated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Resets the cv of the user in the database
+     * @param userEmail The user's email address.
+     */
+    public void resetUserData (String userEmail) {
+        String updateQuery = "UPDATE Users SET information = NULL WHERE email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+            statement.setString(1, userEmail);
+            statement.executeUpdate();
+            System.out.println("User data removed successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Deletes the user completely in the database
+     * @param userEmail The user's email address.
+     */
+    public void deleteUser (String userEmail) {
+        String deleteQuery = "DELETE FROM Users WHERE email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(deleteQuery)) {
+            statement.setString(1, userEmail);
+            statement.executeUpdate();
+            System.out.println("User deleted successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +173,7 @@ public class UserLoginManager {
     /**
      * Removes all data from the Users table.
      */
-    public void deleteUserData () {
+    public void deleteAllUserData () {
         try (Connection conn = DriverManager.getConnection(URL)) {
             conn.createStatement().execute("DROP TABLE IF EXISTS Users");
         } catch (SQLException e) {

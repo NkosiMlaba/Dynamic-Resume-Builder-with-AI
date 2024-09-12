@@ -20,7 +20,6 @@ public class CVGeneratorFromFile {
         }
     }
 
-    // Method to read content from a text file
     private static String readFile(String filePath) {
         try {
             return new String(Files.readAllBytes(Paths.get(filePath)));
@@ -30,7 +29,6 @@ public class CVGeneratorFromFile {
         }
     }
 
-    // Method to process the content and add it to the Word document
     private static void processDocument(XWPFDocument document, String input) {
         String[] lines = input.split("\n");
         XWPFParagraph paragraph = null;

@@ -4,8 +4,6 @@ import za.co.theemlaba.database.*;
 
 public class UserController {
     private UserLoginManager loginDatabase;
-    private UserDataManager dataDatabase;
-
 
     public UserController() {
         
