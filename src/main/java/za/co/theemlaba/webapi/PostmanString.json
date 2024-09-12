@@ -1,0 +1,10 @@
+{
+    "robot": "HAL2",
+    "command": "launch",
+    "arguments": ["shooter", "5", "5"],
+
+
+    "robot": "HAL2",
+    "command": "look",
+    "arguments": []
+}

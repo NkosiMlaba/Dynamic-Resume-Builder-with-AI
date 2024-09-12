@@ -1,0 +1,16 @@
+# Default ignored files
+/target/
+target/
+target
+.vscode
+git
+.idea
+.env
+
+# Readme files
+BuildingANewMavenProject.md
+Notes.md
+CodeStructure.md
+output.txt
+CV.docx
+output2.txt

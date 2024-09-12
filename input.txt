@@ -1,0 +1,137 @@
+NKOSIKHONA MLABA
+Location: Durban, South Africa
+Phone number: 0749737807
+Email: nkosimlaba397@gmail.com
+LinkedIn: https://www.linkedin.com/in/nkosikhona-mlaba-1545a7273/
+GitHub: https://github.com/NkosiMlaba/
+Website: https://nkosimlaba.github.io/Portfolio-website
+Software Developer, Apparel and Graphic designer
+I am someone who tackles the world’s problems using technology, code & design. I go the extra mile to achieve objectives, and I am a problem solver at the core.
+Experience
+April 2023 – May 2024
+Hustlers 99, Durban - Graphic and Apparel designer
+•
+•
+•
+Designing apparel
+Designing business cards & logos
+Making promotional content (Banners, Posters and Logos)
+Volunteer Experience
+April 2024 - May 2024
+WeThinkCode_, Durban - Workshop Mentor
+•
+•
+•
+•
+•
+Preparing workshop material in the form of slides, coding examples and coding tutorials
+Presenting the said material, engaging with the participants, and taking questions
+Monitored other workshops to ensure a smooth running
+Relayed any problem I discovered to the Wethinkcode team in the campus
+Seeked feedback to improve the delivering of the workshops
+April 2024 - May 2024
+WeThinkCode_, Durban - Open Day Coordinator
+•
+•
+•
+•
+•
+Orginising and coordinating the Open Days
+Setting up and preparing the presentation room for the open day
+Engaging with prospective students sharing my experience thus far
+Presenting and giving information regarding WeThinkCode_ application processes, the upcoming bootcamps and the course itself overall
+Handled administrative tasks regarding verifying prospective students on campus with those expected to arrive for Open Days
+February 2024 - Present
+WeThinkCode_, Durban - BTS Programme Evaluator
+•
+•
+•
+•
+Providing reviews of student’s presentation in terms of body language, articulation, presentation content and voice projection
+Coaching students in a key area such as eye contact and engaging with the audience to improve their weak areas
+Provided insights on how the programme could be improved to better support students
+Helped in setting up the presentation room for the presentations
+Education
+2023 - 2024
+WeThinkCode_, Durban - NQF 5 in Systems Development
+2020 - 2022
+University Of KwaZulu Natal, Durban - Bachelor of Commerce in Accounting (Incomplete)
+2019 - 2019
+Mafumbuka High School, Durban - National Senior CertificateLicenses and Certificates
+Year obtained 2024
+MLAB (Code Tribe) - Web development bootcamp
+•
+Html, CSS, JavaScript, Typescript
+Year obtained 2024
+Havard - CS50 Introduction to Programming Using Python
+•
+Git, Unit-testing, Object-Oriented programming (OOP)
+Honors And Awards
+Year obtained 2024
+WeThinkCode_, Durban - Aggregate Distinction
+Achieved 94% aggregate for Year 1 Semester 2
+Year obtained 2024
+WeThinkCode_, Durban - Top 50 Medallion Year 1 Semester 2
+I ranked 6th across campuses for the second semester and was the second-place learner in the Durban campus.
+Year obtained 2024
+WeThinkCode_, Durban – Aggregate Distinction
+Achieved 96% aggregate for Year 1 Semester 1
+Year obtained 2024
+WeThinkCode_, Durban - Top 50 Medallion Year 1 Semester 1
+I ranked 6th across campuses for the first semester and was the top learner in the Durban campus.
+Year obtained 2022
+University Of KwaZulu Natal, Durban - Certificate of Merit
+Achieved the highest percentage for Managerial Accounting & Financial Management 200 [ACCT231W2] [2022].
+Year obtained 2021
+University Of KwaZulu Natal, Durban - Certificate of Merit
+Achieved the highest percentage for Special Topics in Business Law [LAWS2CBW1] [2021].
+Year obtained 2020
+University Of KwaZulu Natal, Durban - Deans Commendation
+Awarded to students at the end of each semester for achieving 70% and above for all modules
+Year obtained 2020
+EThekwini Municipality, Durban - Certificate of Academic Achievement
+Certificate awarded for obtaining outstanding performance in the academic year 2019.
+Year obtained 2019
+Mafumbuka High School, Durban - Merit Certificate of Excellence
+Certificate awarded for receiving the 1st position in the second term for the grade 12 class.
+Projects
+Link to project: https://github.com/NkosiMlaba/lan-multiplayer-quiz
+Multi-Player Coding Practice - Java, Python
+•
+Used Meta AI (Using Groq API) so that users can review answers and receive explanations from the AI
+•
+Utilising sockets to connect and use the application on local area network
+Link to project: https://github.com/NkosiMlaba/javascript-memory-game
+Card Memory Game - JavaScript, CSS, Html
+•
+Highlights my abilities in DOM manipulation using JavaScript and CSSProjects (continued)
+Link to project: https://github.com/NkosiMlaba/Voting-Application
+Voting Application - Python
+•
+Used Google Oath API to authenticate users using valid emails and allow them to vote
+•
+Uses encryption to mask user emails that have voting
+Link to project: https://github.com/NkosiMlaba/word_guessing_game
+Word Guessing Application - Python
+•
+Unit tested to ensure expected functionality
+Link to project: https://github.com/NkosiMlaba/Minimal-Website
+Portfolio Website - Html, CSS, JavaScript
+•
+Portfolio highlighting my projects thus far and an overview of my profile
+•
+Uses GitHub actions for CI/CD automatically deploying to https://theemlaba.co.za
+Areas of expertise
+Back-end development, Front-end development, Full-stack development
+Skills
+Technical Skills
+•
+Python, Java, JavaScript, Git, CSS, Html, Object Oriented Programming, Linux
+Soft Skills
+•
+Critical-Thinking, Problem-Solving, Detail-Oriented, Design Thinking
+Languages
+•
+•
+English - Fluent
+IsiZulu - Fluent

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../styles/style.css" />
+
+</head>
+<body>
+    <nav id="desktop-nav">
+    </nav>
+
+    <div class="container" id="container">
+        <div class="form-container">
+            <form id="create">
+                <h1>Create Account</h1>
+                <span>or use your email for registeration</span>
+                
+                <label for="firstname">First name:</label>
+                <input type="text" name="firstname" required autofocus placeholder="First Name" id="firstname">
+
+                <label for="lastname">Last name:</label>
+                <input type="text" name="lastname" required placeholder="Last Name" id="lastname">
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="Email">
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password"
+                    required minlength="8" placeholder="Password" >
+
+                <label for="confirmpassword">Confirm Password:</label>
+                <input type="password" id="confirmpassword" name="confirmpassword"
+                    required minlength="8" placeholder="Password">
+                
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact details-->
+    <section id="contact">
+    </section>
+
+    <!-- footer -->
+    <footer>
+    </footer>
+
+    <!-- <script src="../scripts/script.js"></script> -->
+    <script src="../scripts/commonelements.js"></script>
+    <script src="../scripts/createuserform.js"></script>
+</body>
+</html>
