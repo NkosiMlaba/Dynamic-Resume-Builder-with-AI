@@ -14,7 +14,7 @@ public class Main {
 
         userLoginManager.storeUserData("thembani@gmail.com", "is a good boy");
 
-        userLoginManager.resetUserData("thembani@gmail.com");
+        // userLoginManager.resetUserData("thembani@gmail.com");
         // userLoginManager.deleteAllUserData();
 
 

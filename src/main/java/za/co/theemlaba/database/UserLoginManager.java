@@ -10,7 +10,7 @@ import java.io.File;
 
 public class UserLoginManager {
     private String URL;
-    private static final String DATABASE_DIR = "database";
+    private static final String DATABASE_DIR = "src/main/resources/database";
 
     public UserLoginManager() {
         setDatabaseName("User.db");
@@ -29,7 +29,7 @@ public class UserLoginManager {
      */
     public void setDatabaseName(String databaseName) {
         createDatabaseDirectory(); // Ensure the directory exists
-        this.URL = "jdbc:sqlite:" + DATABASE_DIR + "/" + databaseName;
+        this.URL = "jdbc:sqlite:" + DATABASE_DIR + File.separator + databaseName;
     }
 
     /**
