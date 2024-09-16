@@ -30,7 +30,7 @@ webapi: build
 run-webapi: 
 	java -jar $(WEBAPI_JAR_FILE) 7000
 
-# Target to aoutmate pushing to github
+# Target to automate pushing to github
 .PHONY: push
 push:
 	@read -p "Enter commit message: " msg; \
