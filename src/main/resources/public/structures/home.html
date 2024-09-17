@@ -17,16 +17,18 @@
 
     <div class="toggle-container">
         <div class="toggle">
+            <div class="toggle-panel toggle-right"></div>
+                <h1>Hello, Friend!</h1>
+                <p>Register with your personal details to use all of site features</p>
+                <button id="register" onclick="loadCreateUserPage()">Sign Up</button>
+            </div>
+            
             <div class="toggle-panel toggle-left">
                 <h1>Welcome Back!</h1>
                 <p>Enter your personal details to use all of site features</p>
-                <button class="hidden" id="login">Sign In</button>
+                <button id="login" onclick="loadLoginPage()">Sign In</button>
             </div>
-            <div class="toggle-panel toggle-right">
-                <h1>Hello, Friend!</h1>
-                <p>Register with your personal details to use all of site features</p>
-                <button class="hidden" id="register">Sign Up</button>
-            </div>
+            
         </div>
     </div>
 
@@ -40,5 +42,6 @@
 
     <!-- <script src="../scripts/script.js"></script> -->
     <script src="../scripts/commonelements.js"></script>
+    <script src="../scripts/home.js"></script>
 </body>
 </html>
