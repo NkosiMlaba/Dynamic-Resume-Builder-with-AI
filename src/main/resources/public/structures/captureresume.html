@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Updates</title>
+</head>
+<body>
+    
+    <div class="resumes">
+        <!-- current resume -->
+        <div id="currentresume">
+            
+        </div>
+
+        <!-- new resume box -->
+        <div>
+            <!-- textbox -->
+            <input type="text" id="resume-text" placeholder="Write your updated resume here...">
+
+            <!-- save button -->
+            <button id="save-btn" onclick="captureResume()">Save</button>
+        </div>
+
+    </div>
+    
+    
+    
+
+    <script>
+        // get the current resume
+        const resumeText = document.getElementById('resume-text');
+        const saveBtn = document.getElementById('save-btn');
+
+        // save the resume
+        saveBtn.addEventListener('click', () => {
+            localStorage.setItem('resume', resumeText.value);
+        });
+
+        // load the resume on page load
+        resumeText.value = localStorage.getItem('resume') || '';
+    </script>
+    <script src="../scripts/captureresume.js"></script>
+</body>
+</html>
