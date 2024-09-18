@@ -17,8 +17,6 @@ import za.co.theemlaba.domain.user.UserManager;
 public class WebApiStarter {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-
-    
     public static void main(String[] args) {
         Javalin app = startServer(args);
         UserController controller = new UserController();
@@ -61,7 +59,6 @@ public class WebApiStarter {
     }
 
     public static Javalin startServer(String[] args) {
-                
         Javalin app = Javalin.create(config -> {
 
             config.bundledPlugins.enableCors(cors -> {
@@ -75,16 +72,20 @@ public class WebApiStarter {
                 staticFileConfig.location = Location.CLASSPATH;
             });
 
-            ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-            templateResolver.setPrefix("templates/");
-            templateResolver.setSuffix(".html");
-            templateResolver.setTemplateMode("HTML");
-            templateResolver.setCharacterEncoding("UTF-8");
-            TemplateEngine templateEngine = new TemplateEngine();
-            templateEngine.setTemplateResolver(templateResolver);
-            config.fileRenderer(new JavalinThymeleaf(templateEngine));
+            config.fileRenderer(new JavalinThymeleaf(buildTemplateEngine()));
             });
 
         return app.start(7000);
+    }
+
+    public static TemplateEngine buildTemplateEngine () {
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setPrefix("templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode("HTML");
+        templateResolver.setCharacterEncoding("UTF-8");
+        TemplateEngine templateEngine = new TemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver);
+        return templateEngine;
     }
 }
