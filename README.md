@@ -11,7 +11,6 @@ This project is currently in active development.
 - Internet browser
 - SQLite
 
-
 ## Additional requirements:
 - Internet access
 - Groq API key
@@ -25,6 +24,10 @@ This project is currently in active development.
         make tests
 
 ## Running instructions:
+1. Run the server using:
+        
+        make webapi
+2. Run the frontend by visiting the url `http://localhost:7000/` on a browser
 
 ## Contributing
 
