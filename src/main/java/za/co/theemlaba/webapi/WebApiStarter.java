@@ -68,7 +68,7 @@ public class WebApiStarter {
             });
 
             config.staticFiles.add(staticFileConfig -> {
-                staticFileConfig.directory = "/public";
+                staticFileConfig.directory = "/static";
                 staticFileConfig.location = Location.CLASSPATH;
             });
 
