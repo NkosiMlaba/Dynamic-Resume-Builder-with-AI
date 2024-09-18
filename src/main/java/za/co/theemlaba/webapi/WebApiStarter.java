@@ -2,32 +2,17 @@ package za.co.theemlaba.webapi;
 
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
-import io.javalin.rendering.FileRenderer;
 import io.javalin.rendering.template.JavalinThymeleaf;
-
 import org.apache.log4j.chainsaw.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static io.javalin.apibuilder.ApiBuilder.get;
-import io.javalin.http.Handler;
-
-// import io.javalin.plugin.rendering.JavalinRenderer;
-// import io.javalin.plugin.rendering.template.JavalinThymeleaf;
 import java.util.HashMap;
 import java.util.Map;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-//templating.engine.ThymeleafTemplateEngine;
-
-
-
 import za.co.theemlaba.domain.UserController;
 import za.co.theemlaba.domain.user.UserManager;
-
 
 public class WebApiStarter {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -67,10 +52,10 @@ public class WebApiStarter {
             ctx.result("Echo: " + receivedData);
         });
 
-        app.get("/user", ctx -> {
-            // String name = ctx.pathParam("name");
+        app.get("/user/{name}", ctx -> {
+            String name = ctx.pathParam("name");
             Map<String, Object> model = new HashMap<>();
-            model.put("name", "Javalin BOB");
+            model.put("name", name);
             ctx.render("user.html", model);
         });
     }
@@ -81,30 +66,25 @@ public class WebApiStarter {
 
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule(it -> {
-                    it.anyHost();  // Allows CORS requests from any host
+                    it.anyHost();
                 });
             });
 
-            // config.staticFiles.add(staticFileConfig -> {
-            //     staticFileConfig.directory = "/public";
-            //     staticFileConfig.location = Location.CLASSPATH;
-            // });
+            config.staticFiles.add(staticFileConfig -> {
+                staticFileConfig.directory = "/public";
+                staticFileConfig.location = Location.CLASSPATH;
+            });
 
-            config.fileRenderer(new JavalinThymeleaf());
-        });
+            ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+            templateResolver.setPrefix("templates/");
+            templateResolver.setSuffix(".html");
+            templateResolver.setTemplateMode("HTML");
+            templateResolver.setCharacterEncoding("UTF-8");
+            TemplateEngine templateEngine = new TemplateEngine();
+            templateEngine.setTemplateResolver(templateResolver);
+            config.fileRenderer(new JavalinThymeleaf(templateEngine));
+            });
 
         return app.start(7000);
     }
-
-    // Configure Thymeleaf template engine
-    private static FileRenderer configureThymeleaf() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("/public");
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCacheable(false); // Disable cache during development
-
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-        return new JavalinThymeleaf(templateEngine);
-    }}
+}
