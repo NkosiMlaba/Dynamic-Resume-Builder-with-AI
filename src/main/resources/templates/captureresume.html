@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Updates</title>
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
     
@@ -24,22 +25,6 @@
 
     </div>
     
-    
-    
-
-    <script>
-        // get the current resume
-        const resumeText = document.getElementById('resume-text');
-        const saveBtn = document.getElementById('save-btn');
-
-        // save the resume
-        saveBtn.addEventListener('click', () => {
-            localStorage.setItem('resume', resumeText.value);
-        });
-
-        // load the resume on page load
-        resumeText.value = localStorage.getItem('resume') || '';
-    </script>
-    <script src="../static/scripts/captureresume.js"></script>
+    <script src="/js/commonelements.js"></script>
 </body>
 </html>

@@ -160,7 +160,7 @@ footer p {
     text-align: center;
 }
 
-.toggle-container {
+.toggle-container, .options-block {
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -178,7 +178,7 @@ footer p {
     flex-direction: row;
 }
 
-.box {
+.box, .capture-resume, .generate-resume {
     background-color: #fff;
     align-items: center;
     justify-content: center;

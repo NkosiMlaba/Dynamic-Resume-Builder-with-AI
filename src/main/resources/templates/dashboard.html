@@ -3,20 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css" />
     <title>Dashboard</title>
 </head>
 <body>
+
+    <!-- navigation desktop -->
+    <nav id="desktop-nav">
+    </nav>
+
+
     <div class="">
         <h1>Dashboard</h1>
         <p>Welcome to your dashboard. Here you can manage your resume, view your applications, and manage your account settings.</p>
 
         <!-- blocks -->
-        <div>
-            <!-- update resume -->
-            <!-- generate cv -->
-                <!-- will lead to capture job description -->
-                    <!-- will lead to output -->
+        <div class="options-block">
+            <div class="capture-resume">
+                <h2>Capture Resume</h2>
+            </div><!-- capture-resume -->
+
+            <div class="generate-resume">
+                <h2>Generate Resume</h2>
+                <form action="/download-page" method="get">
+                    <button type="submit">Generate</button>
+                </form>
+            </div><!-- generate-resume -->
         </div>
     </div>
+
+    <!-- footer -->
+    <footer>
+    </footer>
+
+    <script src="/js/commonelements.js"></script>
+    <script src="/js/home.js"></script>
 </body>
 </html>

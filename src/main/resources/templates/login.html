@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 
-    <link rel="stylesheet" href="../static/styles/style.css" />
-    <!-- <link rel="stylesheet" href="../styles/mediaqueries.css" /> -->
+    <link rel="stylesheet" href="/css/style.css" />
 
 </head>
 <body>
@@ -15,21 +14,27 @@
     </nav>
     
     <div class="container" id="container">
-        <div class="form-container">
-            <form id="login">
-                <h1>Sign In</h1>
-                <span>or use your email password</span>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required placeholder="Email">
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password"
-                    required minlength="8" placeholder="Password" >
-                
-                <button type="submit">Sign In</button>
-            </form>
-        </div>
+        <h2>Login</h2>
+        <form action="/login" method="post">
+            <!-- Email Input -->
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <!-- Password Input -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <!-- Submit Button -->
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Display any login errors -->
+        <!-- <div th:if="${loginError}" class="error">
+            <p th:text="${loginError}">Invalid login credentials</p>
+        </div> -->
+
+
     </div>
 
     <!-- Contact details-->
@@ -40,8 +45,7 @@
     <footer>
     </footer>
 
-    <!-- <script src="../scripts/script.js"></script> -->
-    <script src="../static/scripts/commonelements.js"></script>
-    <script src="../static/scripts/loginform.js"></script>
+    <script src="/js/commonelements.js"></script>
+    <script src="/js/home.js"></script>
 </body>
 </html>

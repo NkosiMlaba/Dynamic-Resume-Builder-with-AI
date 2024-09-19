@@ -1,11 +1,11 @@
-document.getElementById('login').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
+document.getElementById('create').addEventListener('submit', async function(event) {
+    event.preventDefault();
     
     const form = event.target;
     const formData = new FormData(form);
     
     try {
-        const response = await fetch('http://localhost:7000/login', {
+        const response = await fetch('http://localhost:7000/register', {
         method: 'POST',
         body: formData
         });

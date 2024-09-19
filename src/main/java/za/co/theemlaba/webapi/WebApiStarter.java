@@ -3,9 +3,14 @@ package za.co.theemlaba.webapi;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
+import io.javalin.http.Context;
 import org.apache.log4j.chainsaw.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import org.thymeleaf.TemplateEngine;
@@ -22,6 +27,10 @@ public class WebApiStarter {
         UserController controller = new UserController();
         UserManager userManager = new UserManager();
 
+        app.get("/", ctx -> {
+            ctx.render("home.html");
+        });
+
         app.post("/register", ctx -> {
             String receivedData = ctx.body();
             ctx.json(userManager.handleRegister(receivedData));
@@ -30,6 +39,18 @@ public class WebApiStarter {
         app.post("/login", ctx -> {
             String receivedData = ctx.body();
             ctx.json(userManager.handleLogin(receivedData));
+
+            String email = "thembani@gmail.com";
+            if (email != null) {
+                ctx.sessionAttribute("email", email);
+                ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
+                
+                ctx.result("Login successful");
+                ctx.redirect("/dashboard");
+
+            } else {
+                ctx.status(401).result("Invalid credentials");
+            }
         });
 
         app.before(ctx -> {
@@ -56,6 +77,63 @@ public class WebApiStarter {
             model.put("name", name);
             ctx.render("user.html", model);
         });
+
+        
+
+        app.get("/dashboard", ctx -> {
+            
+            String email = ctx.sessionAttribute("email");
+            String sessionId = ctx.req().getSession().getId();
+
+            if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+                ctx.render("dashboard.html");
+            } else {
+                ctx.render("login.html");
+            }
+            
+            
+        });
+
+        app.post("/generate-cv", ctx -> {
+            String email = ctx.sessionAttribute("email");
+            String sessionId = ctx.req().getSession().getId();
+            if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+                ctx.redirect("/download-cv");
+            } else {
+                ctx.redirect("/login");
+            }
+        });
+
+        app.get("/download-page", ctx -> {
+            ctx.render("download.html");
+        });
+
+        app.get("/download-cv", ctx -> {
+            String email = ctx.sessionAttribute("email");
+            String sessionId = ctx.req().getSession().getId();
+
+            if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+                String cvFilePath = generateCvForUser(email);
+
+                sendFile(ctx, cvFilePath);
+            } else {
+                ctx.redirect("/login");
+            }
+        });
+    }
+
+    private static String generateCvForUser(String email) {
+        return "src/main/resources/resumes/" + email +"/GeneratedCV.docx";
+    }
+
+    private static void sendFile(Context ctx, String filePath) throws Exception {
+        Path path = Paths.get(filePath);
+        if (Files.exists(path)) {
+            ctx.header("Content-Disposition", "attachment; filename=" + path.getFileName().toString());
+            ctx.result(Files.newInputStream(path));
+        } else {
+            ctx.status(404).result("File not found");
+        }
     }
 
     public static Javalin startServer(String[] args) {
@@ -68,8 +146,8 @@ public class WebApiStarter {
             });
 
             config.staticFiles.add(staticFileConfig -> {
-                staticFileConfig.directory = "/static";
-                staticFileConfig.location = Location.CLASSPATH;
+                staticFileConfig.directory = "src/main/resources/static";
+                staticFileConfig.location = Location.EXTERNAL;
             });
 
             config.fileRenderer(new JavalinThymeleaf(buildTemplateEngine()));
