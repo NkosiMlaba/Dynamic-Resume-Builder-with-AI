@@ -15,42 +15,33 @@
     </nav>
     
     <div class="container" id="container">
-        <!-- <div class="form-container">
-            <form id="login">
-                <h1>Sign In</h1>
-                <span>or use your email password</span>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required placeholder="Email">
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password"
-                    required minlength="8" placeholder="Password" >
-                
-                <button type="submit">Sign In</button>
-            </form>
-        </div> -->
-
         <h2>Login</h2>
         <form action="/login" method="post">
+            <h1>Sign In</h1>
+            <span>use your email and password</span>
+            
             <!-- Email Input -->
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required
+            placeholder="Email">
 
             <!-- Password Input -->
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required
+            placeholder="Password">
 
             <!-- Submit Button -->
             <button type="submit">Login</button>
         </form>
 
-        <!-- Display any login errors -->
-        <!-- <div th:if="${loginError}" class="error">
-            <p th:text="${loginError}">Invalid login credentials</p>
-        </div> -->
+        
 
 
+    </div>
+
+    <!-- Display any login errors -->
+    <div th:if="${loginError}" class="error">
+        <p th:text="${loginError}">Invalid login credentials</p>
     </div>
 
     <!-- Contact details-->

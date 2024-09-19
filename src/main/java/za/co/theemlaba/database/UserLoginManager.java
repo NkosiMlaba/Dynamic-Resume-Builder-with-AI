@@ -13,7 +13,7 @@ public class UserLoginManager {
     private static final String DATABASE_DIR = "src/main/resources/database";
 
     public UserLoginManager() {
-        setDatabaseName("User.db");
+        setDatabaseName("Database.db");
         initialiseDatabase();
         createEmailIndex();
     }

@@ -37,7 +37,19 @@ public class WebApiStarter {
 
         app.post("/register", ctx -> {
             String receivedData = ctx.body();
-            ctx.json(userManager.handleRegister(receivedData));
+            ctx.json(userManager.handleLogin(receivedData));
+
+            String email = "thembani@gmail.com";
+            if (email != null) {
+                ctx.sessionAttribute("email", email);
+                ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
+                
+                ctx.result("Login successful");
+                ctx.redirect("/dashboard");
+
+            } else {
+                ctx.status(401).result("Invalid credentials");
+            }
         });
 
         app.get("/login", ctx -> {

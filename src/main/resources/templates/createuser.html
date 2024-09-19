@@ -14,9 +14,9 @@
 
     <div class="container" id="container">
         <div class="form-container">
-            <form id="create">
+            <form id="create" action="/register" method="post">
                 <h1>Create Account</h1>
-                <span>or use your email for registeration</span>
+                <span>use your email for registeration</span>
                 
                 <label for="firstname">First name:</label>
                 <input type="text" name="firstname" required autofocus placeholder="First Name" id="firstname">
@@ -29,11 +29,11 @@
 
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password"
-                    required minlength="8" placeholder="Password" >
+                    required placeholder="Password" >
 
                 <label for="confirmpassword">Confirm Password:</label>
                 <input type="password" id="confirmpassword" name="confirmpassword"
-                    required minlength="8" placeholder="Password">
+                    required placeholder="Password">
                 
                 <button type="submit">Sign Up</button>
             </form>

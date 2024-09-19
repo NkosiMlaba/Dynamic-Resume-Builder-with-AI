@@ -1,10 +1,9 @@
-package za.co.theemlaba;
+package za.co.theemlaba.database;
 
-import za.co.theemlaba.database.*;
 import za.co.theemlaba.domain.*;
 
 // A testing class, to test new features individually
-public class Main {
+public class MainDatabase {
     static UserLoginManager userLoginManager = new UserLoginManager();
 
     public static void main(String[] args) {
