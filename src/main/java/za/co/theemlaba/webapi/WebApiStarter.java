@@ -31,9 +31,17 @@ public class WebApiStarter {
             ctx.render("home.html");
         });
 
+        app.get("/register", ctx -> {
+            ctx.render("createuser.html");
+        });
+
         app.post("/register", ctx -> {
             String receivedData = ctx.body();
             ctx.json(userManager.handleRegister(receivedData));
+        });
+
+        app.get("/login", ctx -> {
+            ctx.render("login.html");
         });
 
         app.post("/login", ctx -> {
@@ -81,17 +89,13 @@ public class WebApiStarter {
         
 
         app.get("/dashboard", ctx -> {
-            
             String email = ctx.sessionAttribute("email");
             String sessionId = ctx.req().getSession().getId();
-
             if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
                 ctx.render("dashboard.html");
             } else {
-                ctx.render("login.html");
+                ctx.redirect("/login");
             }
-            
-            
         });
 
         app.post("/generate-cv", ctx -> {
