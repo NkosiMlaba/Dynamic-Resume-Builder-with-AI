@@ -8,11 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.io.File;
 
-public class UserLoginManager {
+public class UserManager {
     private String URL;
     private static final String DATABASE_DIR = "src/main/resources/database";
 
-    public UserLoginManager() {
+    public UserManager() {
         setDatabaseName("Database.db");
         initialiseDatabase();
         createEmailIndex();
@@ -118,6 +118,24 @@ public class UserLoginManager {
     }
 
     /**
+     * Fetches the cv of the user in the database.
+     * @param userEmail The user's email address.
+     */
+    public String fetchUserData (String userEmail) {
+        String selectQuery = "SELECT information FROM Users WHERE email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(selectQuery)) {
+            statement.setString(1, userEmail);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.getString("information");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * Updates the vs of the user in the database with a new one
      * @param userEmail The user's email address.
      * @param userData The user's password.
@@ -197,6 +215,29 @@ public class UserLoginManager {
         catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     * Check if user exists in the database
+     * @param email The email address to search for.
+     */
+    public boolean isExistingUser (String email) {
+        String countQuerry = "SELECT COUNT(*) FROM Users WHERE email = ?";
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(countQuerry)) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                } else {
+                    return false;
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

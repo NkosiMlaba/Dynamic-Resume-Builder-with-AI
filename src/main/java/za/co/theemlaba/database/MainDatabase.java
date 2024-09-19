@@ -1,24 +1,39 @@
 package za.co.theemlaba.database;
 
-import za.co.theemlaba.domain.*;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.nio.file.*;
 
 // A testing class, to test new features individually
 public class MainDatabase {
-    static UserLoginManager userLoginManager = new UserLoginManager();
+    static UserManager userLoginManager = new UserManager();
 
     public static void main(String[] args) {
-        userLoginManager.storeUser("Thembani", "Mthembu", "thembani@gmail.com", "password123");
-        System.out.println(userLoginManager.fetchPassword("thembani@gmail.com"));
-        System.out.println(userLoginManager.fetchPassword("thembani@gmail.com").equals("password123"));
+        
+        // System.out.println(userLoginManager.isExistingUser("thembani@gmail.com"));
+        
+        // userLoginManager.storeUser("Thembani", "Mthembu", "thembani@gmail.com", "password123");
+        // System.out.println(userLoginManager.fetchPassword("thembani@gmail.com"));
+        // System.out.println("Password matches? : " + userLoginManager.fetchPassword("thembani@gmail.com").equals("password123"));
 
-        userLoginManager.storeUserData("thembani@gmail.com", "is a good boy");
-
+        // String userData = readFile("input.txt");
+        // userLoginManager.storeUserData("thembani@gmail.com", userData);
+        
+        // System.out.println(userLoginManager.isExistingUser("thembani@gmail.com"));
         // userLoginManager.resetUserData("thembani@gmail.com");
         // userLoginManager.deleteAllUserData();
 
+        String data = userLoginManager.fetchUserData("thembani@gmail.com");
+        System.out.println(data);
 
+    }
 
-
-
+    private static String readFile(String filePath) {
+        try {
+            return new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

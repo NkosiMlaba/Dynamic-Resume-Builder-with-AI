@@ -16,8 +16,7 @@ import java.util.Map;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-import za.co.theemlaba.domain.UserController;
-import za.co.theemlaba.domain.user.UserManager;
+import za.co.theemlaba.UserController;
 
 public class WebApiStarter {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -25,8 +24,7 @@ public class WebApiStarter {
     public static void main(String[] args) {
         Javalin app = startServer(args);
         UserController controller = new UserController();
-        UserManager userManager = new UserManager();
-
+        
         app.get("/", ctx -> {
             ctx.render("home.html");
         });
@@ -36,10 +34,8 @@ public class WebApiStarter {
         });
 
         app.post("/register", ctx -> {
-            String receivedData = ctx.body();
-            ctx.json(userManager.handleLogin(receivedData));
-
-            String email = "thembani@gmail.com";
+            Map<String, String> receivedData = extractRegistrationInformation(ctx);
+            String email = controller.registerUser(receivedData);
             if (email != null) {
                 ctx.sessionAttribute("email", email);
                 ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
@@ -57,10 +53,9 @@ public class WebApiStarter {
         });
 
         app.post("/login", ctx -> {
-            String receivedData = ctx.body();
-            ctx.json(userManager.handleLogin(receivedData));
-
-            String email = "thembani@gmail.com";
+            Map<String, String> receivedData = extractLoginInformation(ctx);
+            String email = controller.authenticateUser(receivedData);
+            
             if (email != null) {
                 ctx.sessionAttribute("email", email);
                 ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
@@ -181,5 +176,22 @@ public class WebApiStarter {
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
         return templateEngine;
+    }
+
+    public static Map<String, String> extractLoginInformation (Context ctx) {
+        Map<String, String> loginInformation = new HashMap<>();
+        loginInformation.put("email", ctx.formParam("email"));
+        loginInformation.put("password", ctx.formParam("password"));
+        return loginInformation;
+    }
+
+    public static Map<String, String> extractRegistrationInformation (Context ctx) {
+        Map<String, String> loginInformation = new HashMap<>();
+        loginInformation.put("email", ctx.formParam("email"));
+        loginInformation.put("password", ctx.formParam("password"));
+        loginInformation.put("firstname", ctx.formParam("firstname"));
+        loginInformation.put("lastname", ctx.formParam("lastname"));
+        loginInformation.put("confirmpassword", ctx.formParam("confirmpassword"));
+        return loginInformation;
     }
 }

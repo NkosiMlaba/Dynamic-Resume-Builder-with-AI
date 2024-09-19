@@ -13,6 +13,13 @@ public class Llama3Request {
     static String Cv = readFile("input.txt").trim().replace("\n", "").replace("\\", "");
 
     public static String main(String[] args) {
+        role = args.length > 1 ? args[1] : "Software developer";
+        Llama3Request script = new Llama3Request();
+        String content = script.generateCVFromLlama(Cv, role);
+        return content;
+    }
+    
+    public String generateCVFromLlama (String existingResume, String jobDescription) {
         Dotenv dotenv = Dotenv.configure().load();
         String apiKey = dotenv.get("GROQ_API_KEY");
         String prompt1 = dotenv.get("Ins1");
@@ -24,10 +31,9 @@ public class Llama3Request {
             throw new IllegalStateException("API_KEY environment variable not set");
         }
 
-        String prompt = beforeRolePrompt + role + " using this cv '" + Cv + "',"
+        String prompt = beforeRolePrompt + jobDescription + " using this cv '" + existingResume + "',"
                 + prompt1 + prompt2 + prompt3;
-        Llama3Request script = new Llama3Request();
-        HttpResponse<JsonNode> response = script.sendGroqRequest(script.makeJsonString(prompt), apiKey);
+        HttpResponse<JsonNode> response = sendGroqRequest(makeJsonString(prompt), apiKey);
 
         System.out.println(response.getStatus());
         JsonNode jsonObject = response.getBody();
