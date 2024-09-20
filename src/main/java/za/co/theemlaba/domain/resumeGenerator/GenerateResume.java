@@ -7,6 +7,8 @@ import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import java.io.File;
+
 
 public class GenerateResume {
     String filePath = "src/main/resources/resumes/";
@@ -18,6 +20,7 @@ public class GenerateResume {
 
     public void generateCV(String email, String input) {
         updatePaths(email);
+        createUserDirectory();
         input = removeMessageBeforeColon(input);
         XWPFDocument document = new XWPFDocument();
 
@@ -27,6 +30,13 @@ public class GenerateResume {
             System.out.println("CV created successfully.");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void createUserDirectory() {
+        File directory = new File(filePath);
+        if (!directory.exists()) {
+            directory.mkdirs();
         }
     }
 

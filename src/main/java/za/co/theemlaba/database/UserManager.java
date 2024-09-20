@@ -56,12 +56,33 @@ public class UserManager {
     /**
      * Creates the Users table if it does not already exist.
      */
-    public void createUserParameters() {
+    public void createUserTable() {
         String sql = "CREATE TABLE IF NOT EXISTS Users (\n"
                 + " firstname TEXT NOT NULL,\n"
                 + " lastname TEXT NOT NULL,\n"
                 + " email TEXT NOT NULL,\n"
                 + " password TEXT NOT NULL,\n"
+                + " information TEXT"
+                + ");";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+            System.out.println("Database and Users table created.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Creates the Users table if it does not already exist.
+     */
+    public void createUserResumesTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS Users (\n"
+                + " firstname TEXT NOT NULL,\n"
+                + " lastname TEXT NOT NULL,\n"
+
+                + " FOREIGN KEY (name_world) REFERENCES Worlds(email) ON DELETE CASCADE\n"
                 + " information TEXT"
                 + ");";
         
@@ -136,7 +157,7 @@ public class UserManager {
     }
 
     /**
-     * Updates the vs of the user in the database with a new one
+     * Updates the cv of the user in the database with a new one
      * @param userEmail The user's email address.
      * @param userData The user's password.
      */

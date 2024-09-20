@@ -37,7 +37,14 @@ public class UserController {
     }
 
     public String handleStoreResumeData(Map<String, String> receivedData) {
-        return null;
+        try {
+            String resume = receivedData.get("resume");
+            String email = receivedData.get("email");
+            database.updateUserData(email, resume);
+            return email;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String handleLogin(String receivedData) {

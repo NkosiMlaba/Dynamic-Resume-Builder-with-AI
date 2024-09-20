@@ -15,16 +15,17 @@ public class MainDatabase {
         // System.out.println(userLoginManager.fetchPassword("thembani@gmail.com"));
         // System.out.println("Password matches? : " + userLoginManager.fetchPassword("thembani@gmail.com").equals("password123"));
 
-        String userData = readFile("input.txt");
-        userData = cleanData(userData);
-        userLoginManager.storeUserData("thembani@gmail.com", userData);
+        // String userData = readFile("input.txt");
+        // userData = cleanData(userData);
+        // userLoginManager.storeUserData("thembani@gmail.com", userData);
         
         // System.out.println(userLoginManager.isExistingUser("thembani@gmail.com"));
         // userLoginManager.resetUserData("thembani@gmail.com");
+        userLoginManager.deleteUser("LucaShirlow@jourrapide.com");
         // userLoginManager.deleteAllUserData();
 
-        String data = userLoginManager.fetchUserData("thembani@gmail.com");
-        System.out.println(data);
+        // String data = userLoginManager.fetchUserData("thembani@gmail.com");
+        // System.out.println(data);
 
     }
 

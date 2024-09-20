@@ -65,7 +65,7 @@ public class WebApiStarter {
             ctx.sessionAttribute("email", email);
             ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
             ctx.result("Login successful");
-            ctx.redirect("/capture");
+            ctx.redirect("/capture-resume");
         } else {
             ctx.redirect("/register");
         }
@@ -150,14 +150,14 @@ public class WebApiStarter {
         ctx.render("settings.html");
     }
 
-    public static void generateCv(Context ctx) {
-        String email = returnEmailIfValidSession(ctx);
-        if (email != null) {
-            ctx.redirect("/download-cv");
-        } else {
-            ctx.redirect("/login");
-        }
-    }
+    // public static void generateCv(Context ctx) {
+    //     String email = returnEmailIfValidSession(ctx);
+    //     if (email != null) {
+    //         ctx.redirect("/download-cv");
+    //     } else {
+    //         ctx.redirect("/login");
+    //     }
+    // }
 
     public static void showDownloadPage(Context ctx) {
         ctx.render("download.html");
