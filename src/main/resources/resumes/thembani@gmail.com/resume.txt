@@ -1,0 +1,26 @@
+**Thembani**
+
+**Contact Info**
+thembani3@gmail.com | 074 123 4567 | LinkedIn: thembani3
+
+**Education**
+Bachelor of Science in Computer Science, University of Cape Town, 2015-2019
+
+**Experience**
+Software Developer Intern, XYZ Corporation, 2020-present
+
+* Developed and maintained several web applications using Java and Spring Boot
+* Collaborated with cross-functional teams to design and implement software solutions
+* Improved application performance by 30% through optimization and refactoring
+
+**Skills**
+
+* Programming languages: Java, Python, JavaScript
+* Development frameworks: Spring Boot, Django, React
+* Agile methodologies: Scrum, Kanban
+* Cloud platforms: AWS, Azure
+* Databases: MySQL, MongoDB
+
+**Projects**
+Personal Project: E-commerce platform using React, Node.js, and MongoDB
+Collaborative Project: Chatbot using Java and Spring Boot, presented at the University of Cape Town's TechFest 2020

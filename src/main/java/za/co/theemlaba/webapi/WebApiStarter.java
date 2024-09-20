@@ -44,10 +44,16 @@ public class WebApiStarter {
         
         app.get("/download-page", WebApiStarter::showDownloadPage);
 
-        app.get("/regenerate-and-download", WebApiStarter::regenerateAndDownload);
-        app.get("/download-cv", WebApiStarter::downloadCv);
+        app.get("/capture-cover-letter-description", WebApiStarter::showCaptureCoverLetterPage);
+        app.post("/capture-cover-letter-description", WebApiStarter::captureCoverLetterDescription);
+        app.post("/generate-cover-letter", WebApiStarter::generateCoverLetter);
+        app.post("/generate-cover-letter-from-last-job", WebApiStarter::generateCoverLetterFromLastJob);
+
+        app.get("/regenerate-and-download", WebApiStarter::regenerateResumeAndDownload);
+        app.get("/download-cv", WebApiStarter::downloadResume);
 
         app.get("/settings", WebApiStarter::showSettingsPage);
+        app.post("/settings", WebApiStarter::handleSettingsUpdate);
     }
 
     public static void showHomePage(Context ctx) {
@@ -133,6 +139,18 @@ public class WebApiStarter {
         }
     }
 
+    public static void showCaptureCoverLetterPage(Context ctx){
+        String email = returnEmailIfValidSession(ctx);
+        
+        if (email!= null) {
+            Map<String, Object> model = controller.hasLastJobDescription(email);
+            ctx.render("capturecoverletter.html", model);
+        } else {
+            ctx.redirect("/login");
+        }
+        
+    }
+
     public static void showCaptureJobDescriptionPage(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         
@@ -170,40 +188,83 @@ public class WebApiStarter {
         }
     }
 
-    public static void regenerateAndDownload(Context ctx) {
-        String email = returnEmailIfValidSession(ctx);
-
+    public static void captureCoverLetterDescription(Context ctx) {
+        Map<String, String> receivedData = extractJobDescriptionInformation(ctx);
+        String email = controller.handleCoverLetterDescription(receivedData);
         if (email != null) {
-            email = controller.regenerateResume(email);
-            downloadCv(ctx);
+            ctx.redirect("/download-page");
+        } else {
+            ctx.redirect("/dashboard");
+        }
+    }
 
+    public static void generateCoverLetterFromLastJob(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+        
+        if (email != null) {
+            
+            email = controller.regenerateCoverLetterFromLastJob(email);
+            ctx.render("download.html");
+            
         } else {
             ctx.redirect("/login");
         }
     }
 
+    public static void regenerateResumeAndDownload(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+
+        if (email != null) {
+            email = controller.regenerateResume(email);
+            downloadCoverLetter(ctx);
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    public static void regenerateCoverLetterAndDownload(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+
+        if (email != null) {
+            email = controller.regenerateCoverLetter(email);
+            downloadCoverLetter(ctx);
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+
+
     public static void showSettingsPage(Context ctx) {
         ctx.render("settings.html");
     }
 
-    // public static void generateCv(Context ctx) {
-    //     String email = returnEmailIfValidSession(ctx);
-    //     if (email != null) {
-    //         ctx.redirect("/download-cv");
-    //     } else {
-    //         ctx.redirect("/login");
-    //     }
-    // }
+    public static void handleSettingsUpdate(Context ctx) {
+        
+        String email = returnEmailIfValidSession(ctx);
+
+        if (email == null) {
+            ctx.redirect("/login");
+        }
+
+        String selectedFormat = ctx.formParam("format");
+        if (email != null && selectedFormat != null) {
+            controller.updatePreferredFormat(email, selectedFormat);
+            ctx.redirect("/dashboard");
+        } else {
+            ctx.redirect("/settings");
+        }
+    }
 
     public static void showDownloadPage(Context ctx) {
         ctx.render("download.html");
     }
 
-    public static void downloadCv(Context ctx) {
+    public static void downloadResume(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         if (email != null) {
-            String cvFilePath = controller.getCvFilePath(email);
-            sendFile(ctx, cvFilePath);
+            String resumeFilePath = controller.getResumeFilePath(email);
+            sendFile(ctx, resumeFilePath);
         } else {
             ctx.redirect("/login");
         }

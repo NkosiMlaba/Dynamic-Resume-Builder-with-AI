@@ -53,6 +53,7 @@ public class UserManager {
         createUserTable();
         createUserResumesTable();
         createUserJobDescriptionsTable();
+        createUserPreferencesTable();
     }
 
     /**
@@ -116,12 +117,11 @@ public class UserManager {
     /**
      * Creates the Preferences table if it does not already exist.
      */
-    // TODO: use method
     public void createUserPreferencesTable() {
         String sql = "CREATE TABLE IF NOT EXISTS Preferences (\n"
                 + " preference_email TEXT NOT NULL,\n"
+                + " format TEXT NOT NULL,\n"
                 + " FOREIGN KEY (preference_email) REFERENCES Users(email) ON DELETE CASCADE\n"
-                + " preferences TEXT"
                 + ");";
         
         try (Connection conn = DriverManager.getConnection(URL);
@@ -188,6 +188,42 @@ public class UserManager {
             System.out.println("User Jobdescriptions placeholder stored successfully.");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Create the entry of the user in the Preferences table.
+     * @param userEmail The user's email address.
+     */
+    public void createPreferencesEntry (String userEmail, String format) {
+        String insertQuerry = "INSERT INTO Preferences (preference_email, format) VALUES (?, ?)";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(insertQuerry)) {
+            statement.setString(1, userEmail);
+            statement.setString(2, format);
+            statement.executeUpdate();
+            System.out.println("User Preferences stored successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Fetches the cv of the user in the database.
+     * @param userEmail The user's email address.
+     */
+    public String fetchUserDocTypePreference (String userEmail) {
+        String selectQuery = "SELECT format FROM Preferences WHERE preference_email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(selectQuery)) {
+            statement.setString(1, userEmail);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.getString("format");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -260,6 +296,25 @@ public class UserManager {
             statement.setString(2, userEmail);
             statement.executeUpdate();
             System.out.println("User job description updated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates the user's document type preference in the database
+     * @param userEmail The user's email address.
+     * @param userFormat The user's preferred document type.
+     */
+    public void updateUserDocTypePreference (String userEmail, String userFormat) {
+        String updateQuery = "UPDATE Preferences SET format = ? WHERE preference_email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+            statement.setString(1, userFormat);
+            statement.setString(2, userEmail);
+            statement.executeUpdate();
+            System.out.println("User document type preference updated successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -396,8 +451,9 @@ public class UserManager {
     /**
      * Calls the methods that create the enrtries in the database
      */
-    public void createEntries(String email) {
+    public void createEntries(String email, String format) {
         createResumesEntry(email);
         createJobdescriptionsEntry(email);
+        createPreferencesEntry(email, format);
     }
 }

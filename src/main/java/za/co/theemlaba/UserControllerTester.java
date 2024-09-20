@@ -35,10 +35,9 @@ public class UserControllerTester {
         String role = args.length > 1 ? args[1] : "Software developer";
         System.out.println(role);
 
-
         String userCV = controller.generateResumeAsString("thembani@gmail.com", role);
         controller.generateResumeAsDocument("thembani@gmail.com", userCV);
-        
+
 
         // Map<String, String> jobDescr = new HashMap<>();
         // jobDescr.put("email", "LucaShirlow@jourrapide.com");

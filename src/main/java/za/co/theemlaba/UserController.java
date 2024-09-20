@@ -11,6 +11,7 @@ public class UserController {
     private UserManager database = new UserManager();
     private Llama3Request request = new Llama3Request();
     private GenerateResume generator = new GenerateResume();
+    private String defaultDocType = ".docx";
 
 
     public UserController() {
@@ -79,7 +80,7 @@ public class UserController {
             } else {
                 //TODO: store user information
                 database.storeUser(receivedData.get("firstname"), receivedData.get("lastname"), receivedData.get("email"), receivedData.get("password"));
-                database.createEntries(receivedData.get("email"));
+                database.createEntries(receivedData.get("email"), defaultDocType);
                 return receivedData.get("email");
             }
         } catch (Exception e) {
@@ -112,6 +113,23 @@ public class UserController {
         }
     }
 
+    public String updatePreferredFormat (String email, String formatData) {
+        switch (formatData) {
+            case "docx":
+                database.updateUserDocTypePreference(email, ".docx");
+                break;
+            case "pdf":
+                database.updateUserDocTypePreference(email, ".pdf");
+                break;
+            case "txt":
+                database.updateUserDocTypePreference(email, ".txt");
+                break;
+            default:
+                break;
+        }
+        return null;
+    }
+
     public static String cleanData (String data) {
         data = data.replaceAll("\\n{2,}", "\n");
         data = data.replace("\"", "\\\"")
@@ -121,8 +139,10 @@ public class UserController {
         return data;
     }
 
-    public String getCvFilePath(String email) {
-        return "src/main/resources/resumes/" + email + "/resume.docx";
+    public String getResumeFilePath(String email) {
+        // TODO
+        String preferrefFormat = database.fetchUserDocTypePreference(email);
+        return "src/main/resources/resumes/" + email + "/resume" + preferrefFormat;
     }
 
     public String regenerateResume (String email) {

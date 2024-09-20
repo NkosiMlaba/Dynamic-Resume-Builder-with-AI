@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Capture Cover Letter Description</title>
+</head>
+<body>
+    <!-- navigation desktop -->
+    <nav id="desktop-nav">
+    </nav>
+
+    <!-- capture-job-container -->
+    <div class="capture-job-container">
+        
+        <div>
+            <h1>Generate cover letter using resume only</h1>
+            
+        </div>
+
+
+        <!-- Div for last job description and button to generate from it -->
+        <div th:if="${hasLastJobDescription}">
+            <h1>Last Job Description</h1>
+            <p th:text="${lastJobDescription}">Last job description text goes here</p>
+            <form action="/generate-from-last-job" method="post">
+                <button type="submit">Generate from Last Job Description</button>
+            </form>
+        </div>
+        
+        <div>
+            <form action="/capture-job-description" method="post">
+                <h1>Capture Job Description</h1>
+                <span>Enter the job description</span>
+                
+                <!-- Job Description Input -->
+                <label for="jobdescription">Job Description:</label>
+                <textarea id="jobdescription" name="jobdescription" rows="30" cols="50"></textarea>
+                <button type="submit">Capture</button>
+            </form>
+        </div>
+        
+    </div> <!-- capture-job-container -->
+
+    <!-- footer -->
+    <footer>
+    </footer>
+
+    <!-- script -->
+    <script src="/js/commonelements.js"></script>
+</body>
+</html>

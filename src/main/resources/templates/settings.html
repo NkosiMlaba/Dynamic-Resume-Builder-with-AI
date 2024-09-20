@@ -4,22 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css" />
-    <title>Capture Job Description</title>
+    <title>User Settings</title>
 </head>
 <body>
-    <!-- navigation desktop -->
-    <nav id="desktop-nav">
+    <!-- Navigation bar -->
+    <nav>
+        <!-- Your navigation elements -->
     </nav>
 
-    <div>
-        <h2>Settings</h2>
+    <!-- Settings Container -->
+    <div class="settings-container">
+        <h1>Settings</h1>
+        <form action="/settings" method="post">
+            <h2>Select Preferred Document Format</h2>
+
+            <!-- Format Options -->
+            <div class="formats">
+                <input type="radio" id="txt" name="format" value="txt">
+                <label for="txt">TXT</label><br>
+
+                <input type="radio" id="pdf" name="format" value="pdf">
+                <label for="pdf">PDF</label><br>
+
+                <input type="radio" id="docx" name="format" value="docx">
+                <label for="docx">DOCX</label><br>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Save Settings</button>
+        </form>
     </div>
 
-    <!-- footer -->
+    <!-- Footer -->
     <footer>
+        <!-- Your footer elements -->
     </footer>
 
-    <!-- script -->
     <script src="/js/commonelements.js"></script>
 </body>
 </html>

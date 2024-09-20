@@ -1,0 +1,35 @@
+**Alex Chen**
+
+**Contact Info**
+123 Main St, Anytown, USA 12345
+(555) 555-5555
+alexchen@example.com
+
+**Education**
+
+* Bachelor of Science in Computer Science, XYZ University (20XX-20XX)
+* Relevant coursework: Data Structures, Algorithms, Computer Systems, and Software Engineering
+
+**Experience**
+
+* Software Engineer, ABC Tech Company (20XX-PRESENT)
+	+ Contributed to the development of multiple software applications using languages such as Java, Python, and C++
+	+ Collaborated with cross-functional teams to identify and prioritize project requirements and deliverables
+	+ Implemented quality control measures to ensure high-quality software releases and improved code review processes
+* Intern, DEF Startup (Summer 20XX)
+	+ Assisted in building a web application using Ruby on Rails and Postgres
+	+ Worked closely with the development team to debug and resolve issues
+	+ Implemented testing frameworks and automated testing scripts
+
+**Skills**
+
+* Programming languages: Java, Python, C++, Ruby, JavaScript
+* Familiarity with Agile development methodologies and Scrum framework
+* Experience with version control systems: Git, SVN
+* Proficient in debugging and troubleshooting code
+* Strong problem-solving and analytical skills
+
+**Projects**
+
+* Personal Project: A web-based to-do list app built using React, Node.js, and MongoDB
+* University Project: Developed a game using Java and introduced machine learning algorithms using Weka library
