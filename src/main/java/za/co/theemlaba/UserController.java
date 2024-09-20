@@ -36,7 +36,7 @@ public class UserController {
         }
     }
 
-    public String handleRegister(String receivedData) {
+    public String handleStoreResumeData(Map<String, String> receivedData) {
         return null;
     }
 
@@ -70,7 +70,7 @@ public class UserController {
                 return null;
             } else {
                 //TODO: store user information
-                // database.storeUser(receivedData.get("firstname"), receivedData.get("lastname"), receivedData.get("email"), receivedData.get("password"));
+                database.storeUser(receivedData.get("firstname"), receivedData.get("lastname"), receivedData.get("email"), receivedData.get("password"));
                 return receivedData.get("email");
             }
         } catch (Exception e) {
@@ -104,12 +104,10 @@ public class UserController {
 
     public static String cleanData (String data) {
         data = data.replaceAll("\\n{2,}", "\n");
-    
         data = data.replace("\"", "\\\"")
                     .replace("\\", "\\\\")
                     .replace("\n", "\\n")
                     .replace("\r", "");
-        
         return data;
     }
 

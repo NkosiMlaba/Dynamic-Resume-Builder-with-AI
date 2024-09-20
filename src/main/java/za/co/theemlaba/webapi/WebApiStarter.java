@@ -26,9 +26,6 @@ public class WebApiStarter {
 
         app.before(WebApiStarter::logRequest);
         app.after(WebApiStarter::logResponse);
-        app.get("/api/greeting", WebApiStarter::showGreeting);
-        app.post("/api/echo/{data}", WebApiStarter::echoData);
-        app.get("/user/{name}", WebApiStarter::showUserPage);
 
         app.get("/", WebApiStarter::showHomePage);
         app.get("/register", WebApiStarter::showRegistrationPage);
@@ -37,6 +34,9 @@ public class WebApiStarter {
         app.post("/login", WebApiStarter::handleLogin);
 
         app.get("/dashboard", WebApiStarter::showDashboard);
+
+        app.get("/capture-resume", WebApiStarter::showResumeCapturePage);
+        app.post("/capture-resume", WebApiStarter::handleResumeUpdate);
 
         app.get("/capture-job-description", WebApiStarter::showCaptureJobDescriptionPage);
         app.post("/capture-job-description", WebApiStarter::captureJobDescription);
@@ -65,9 +65,9 @@ public class WebApiStarter {
             ctx.sessionAttribute("email", email);
             ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
             ctx.result("Login successful");
-            ctx.redirect("/dashboard");
+            ctx.redirect("/capture");
         } else {
-            ctx.status(401).result("Invalid credentials");
+            ctx.redirect("/register");
         }
     }
 
@@ -97,28 +97,36 @@ public class WebApiStarter {
         logger.info("Responded with status {}", ctx.status());
     }
 
-    public static void showGreeting(Context ctx) {
-        ctx.json("Hello from Javalin Server with CORS!");
-    }
-
-    public static void echoData(Context ctx) {
-        String receivedData = ctx.pathParam("data");
-        ctx.result("Echo: " + receivedData);
-    }
-
-    public static void showUserPage(Context ctx) {
-        String name = ctx.pathParam("name");
-        Map<String, Object> model = new HashMap<>();
-        model.put("name", name);
-        ctx.render("user.html", model);
-    }
-
     public static void showDashboard(Context ctx) {
-        String email = ctx.sessionAttribute("email");
-        String sessionId = ctx.req().getSession().getId();
-
-        if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+        String email = returnEmailIfValidSession(ctx);
+        if (email != null) {
             ctx.render("dashboard.html");
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    public static void showResumeCapturePage (Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+        if (email != null) {
+            ctx.render("captureresume.html");
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    public static void handleResumeUpdate (Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+        
+        if (email != null) {
+            Map<String, String> receivedData = extractResumeInformation(ctx);
+            receivedData.put("email", email);
+            email = controller.handleStoreResumeData(receivedData);
+            if (email != null) {
+                ctx.redirect("/dashboard");
+            } else {
+                ctx.redirect("/capture-resume");
+            }
         } else {
             ctx.redirect("/login");
         }
@@ -134,7 +142,7 @@ public class WebApiStarter {
         if (email != null) {
             ctx.redirect("/download-page");
         } else {
-            ctx.status(401).result("Invalid credentials");
+            ctx.redirect("/dashboard");
         }
     }
 
@@ -143,10 +151,8 @@ public class WebApiStarter {
     }
 
     public static void generateCv(Context ctx) {
-        String email = ctx.sessionAttribute("email");
-        String sessionId = ctx.req().getSession().getId();
-
-        if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+        String email = returnEmailIfValidSession(ctx);
+        if (email != null) {
             ctx.redirect("/download-cv");
         } else {
             ctx.redirect("/login");
@@ -158,10 +164,8 @@ public class WebApiStarter {
     }
 
     public static void downloadCv(Context ctx) throws Exception {
-        String email = ctx.sessionAttribute("email");
-        String sessionId = ctx.req().getSession().getId();
-
-        if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+        String email = returnEmailIfValidSession(ctx);
+        if (email != null) {
             String cvFilePath = controller.getCvFilePath(email);
             sendFile(ctx, cvFilePath);
         } else {
@@ -205,6 +209,16 @@ public class WebApiStarter {
         return templateEngine;
     }
 
+    public static String returnEmailIfValidSession (Context ctx) {
+        String email = ctx.sessionAttribute("email");
+        String sessionId = ctx.req().getSession().getId();
+        if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+            return email;
+        } else {
+            return null;
+        }
+    }
+
     public static Map<String, String> extractLoginInformation(Context ctx) {
         Map<String, String> loginInformation = new HashMap<>();
         loginInformation.put("email", ctx.formParam("email"));
@@ -217,6 +231,12 @@ public class WebApiStarter {
         jobInformation.put("jobdescription", ctx.formParam("jobdescription"));
         jobInformation.put("email", ctx.sessionAttribute("email"));
         return jobInformation;
+    }
+
+    public static Map<String, String> extractResumeInformation(Context ctx) {
+        Map<String, String> resumeInformation = new HashMap<>();
+        resumeInformation.put("resume", ctx.formParam("resume"));
+        return resumeInformation;
     }
 
     public static Map<String, String> extractRegistrationInformation(Context ctx) {

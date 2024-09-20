@@ -9,21 +9,25 @@
 <body>
     
     <div class="resumes">
+        
         <!-- current resume -->
         <div id="currentresume">
             
-        </div>
+        </div> <!-- current resume -->
 
         <!-- new resume box -->
         <div>
-            <!-- textbox -->
-            <input type="text" id="resume-text" placeholder="Write your updated resume here...">
+            <form action="/capture-resume" method="post">
+                <!-- textbox -->
+                <label for="resume">Job Description:</label>
+                <input type="text" id="resume" name="resume" placeholder="Write your updated resume here...">
 
-            <!-- save button -->
-            <button id="save-btn" onclick="captureResume()">Save</button>
-        </div>
+                <!-- save button -->
+                <button id="save-btn" onclick="captureResume()">Save</button>
+            </form>
+        </div> <!-- new resume box -->
 
-    </div>
+    </div> <!-- resumes -->
     
     <script src="/js/commonelements.js"></script>
 </body>
