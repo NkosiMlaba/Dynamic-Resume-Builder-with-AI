@@ -1,7 +1,6 @@
 package za.co.theemlaba.database;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.nio.file.*;
 
 // A testing class, to test new features individually
@@ -16,8 +15,9 @@ public class MainDatabase {
         // System.out.println(userLoginManager.fetchPassword("thembani@gmail.com"));
         // System.out.println("Password matches? : " + userLoginManager.fetchPassword("thembani@gmail.com").equals("password123"));
 
-        // String userData = readFile("input.txt");
-        // userLoginManager.storeUserData("thembani@gmail.com", userData);
+        String userData = readFile("input.txt");
+        userData = cleanData(userData);
+        userLoginManager.storeUserData("thembani@gmail.com", userData);
         
         // System.out.println(userLoginManager.isExistingUser("thembani@gmail.com"));
         // userLoginManager.resetUserData("thembani@gmail.com");
@@ -35,5 +35,17 @@ public class MainDatabase {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String cleanData (String data) {
+    data = data.replaceAll("\\n{2,}", "\n");
+
+    // Escape problematic characters for JSON
+    data = data.replace("\"", "\\\"")
+                .replace("\\", "\\\\")
+                .replace("\n", "\\n")
+                .replace("\r", "");
+    
+    return data;
     }
 }

@@ -7,7 +7,6 @@ import io.javalin.http.Context;
 import org.apache.log4j.chainsaw.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,127 +14,164 @@ import java.util.HashMap;
 import java.util.Map;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-
 import za.co.theemlaba.UserController;
 
 public class WebApiStarter {
+
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final UserController controller = new UserController();
 
     public static void main(String[] args) {
         Javalin app = startServer(args);
-        UserController controller = new UserController();
+
+        app.before(WebApiStarter::logRequest);
+        app.after(WebApiStarter::logResponse);
+        app.get("/api/greeting", WebApiStarter::showGreeting);
+        app.post("/api/echo/{data}", WebApiStarter::echoData);
+        app.get("/user/{name}", WebApiStarter::showUserPage);
+
+        app.get("/", WebApiStarter::showHomePage);
+        app.get("/register", WebApiStarter::showRegistrationPage);
+        app.post("/register", WebApiStarter::handleRegistration);
+        app.get("/login", WebApiStarter::showLoginPage);
+        app.post("/login", WebApiStarter::handleLogin);
+
+        app.get("/dashboard", WebApiStarter::showDashboard);
+
+        app.get("/capture-job-description", WebApiStarter::showCaptureJobDescriptionPage);
+        app.post("/capture-job-description", WebApiStarter::captureJobDescription);
         
-        app.get("/", ctx -> {
-            ctx.render("home.html");
-        });
+        app.get("/download-page", WebApiStarter::showDownloadPage);
 
-        app.get("/register", ctx -> {
-            ctx.render("createuser.html");
-        });
+        // app.post("/generate-cv", WebApiStarter::generateCv);
+        app.get("/download-cv", WebApiStarter::downloadCv);
 
-        app.post("/register", ctx -> {
-            Map<String, String> receivedData = extractRegistrationInformation(ctx);
-            String email = controller.registerUser(receivedData);
-            if (email != null) {
-                ctx.sessionAttribute("email", email);
-                ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
-                
-                ctx.result("Login successful");
-                ctx.redirect("/dashboard");
-
-            } else {
-                ctx.status(401).result("Invalid credentials");
-            }
-        });
-
-        app.get("/login", ctx -> {
-            ctx.render("login.html");
-        });
-
-        app.post("/login", ctx -> {
-            Map<String, String> receivedData = extractLoginInformation(ctx);
-            String email = controller.authenticateUser(receivedData);
-            
-            if (email != null) {
-                ctx.sessionAttribute("email", email);
-                ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
-                
-                ctx.result("Login successful");
-                ctx.redirect("/dashboard");
-
-            } else {
-                ctx.status(401).result("Invalid credentials");
-            }
-        });
-
-        app.before(ctx -> {
-            logger.info("Received {} request to {}", ctx.method(), ctx.url().toString());
-        });
-
-        app.after(ctx -> {
-            logger.info("Responded with status {}", ctx.status());
-        });
-
-        app.get("/api/greeting", ctx -> {
-            ctx.json("Hello from Javalin Server with CORS!");
-        });
-
-        
-        app.post("/api/echo/{data}", ctx -> {
-            String receivedData = ctx.pathParam("data");
-            ctx.result("Echo: " + receivedData);
-        });
-
-        app.get("/user/{name}", ctx -> {
-            String name = ctx.pathParam("name");
-            Map<String, Object> model = new HashMap<>();
-            model.put("name", name);
-            ctx.render("user.html", model);
-        });
-
-        
-
-        app.get("/dashboard", ctx -> {
-            String email = ctx.sessionAttribute("email");
-            String sessionId = ctx.req().getSession().getId();
-            if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
-                ctx.render("dashboard.html");
-            } else {
-                ctx.redirect("/login");
-            }
-        });
-
-        app.post("/generate-cv", ctx -> {
-            String email = ctx.sessionAttribute("email");
-            String sessionId = ctx.req().getSession().getId();
-            if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
-                ctx.redirect("/download-cv");
-            } else {
-                ctx.redirect("/login");
-            }
-        });
-
-        app.get("/download-page", ctx -> {
-            ctx.render("download.html");
-        });
-
-        app.get("/download-cv", ctx -> {
-            String email = ctx.sessionAttribute("email");
-            String sessionId = ctx.req().getSession().getId();
-
-            if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
-                String cvFilePath = generateCvForUser(email);
-
-                sendFile(ctx, cvFilePath);
-            } else {
-                ctx.redirect("/login");
-            }
-        });
+        app.get("/settings", WebApiStarter::showSettingsPage);
     }
 
-    private static String generateCvForUser(String email) {
-        return "src/main/resources/resumes/" + email +"/GeneratedCV.docx";
+    public static void showHomePage(Context ctx) {
+        ctx.render("home.html");
     }
+
+    public static void showRegistrationPage(Context ctx) {
+        ctx.render("createuser.html");
+    }
+
+    public static void handleRegistration(Context ctx) {
+        Map<String, String> receivedData = extractRegistrationInformation(ctx);
+        String email = controller.registerUser(receivedData);
+
+        if (email != null) {
+            ctx.sessionAttribute("email", email);
+            ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
+            ctx.result("Login successful");
+            ctx.redirect("/dashboard");
+        } else {
+            ctx.status(401).result("Invalid credentials");
+        }
+    }
+
+    public static void showLoginPage(Context ctx) {
+        ctx.render("login.html");
+    }
+
+    public static void handleLogin(Context ctx) {
+        Map<String, String> receivedData = extractLoginInformation(ctx);
+        String email = controller.authenticateUser(receivedData);
+
+        if (email != null) {
+            ctx.sessionAttribute("email", email);
+            ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
+            ctx.result("Login successful");
+            ctx.redirect("/dashboard");
+        } else {
+            ctx.status(401).result("Invalid credentials");
+        }
+    }
+
+    public static void logRequest(Context ctx) {
+        logger.info("Received {} request to {}", ctx.method(), ctx.url().toString());
+    }
+
+    public static void logResponse(Context ctx) {
+        logger.info("Responded with status {}", ctx.status());
+    }
+
+    public static void showGreeting(Context ctx) {
+        ctx.json("Hello from Javalin Server with CORS!");
+    }
+
+    public static void echoData(Context ctx) {
+        String receivedData = ctx.pathParam("data");
+        ctx.result("Echo: " + receivedData);
+    }
+
+    public static void showUserPage(Context ctx) {
+        String name = ctx.pathParam("name");
+        Map<String, Object> model = new HashMap<>();
+        model.put("name", name);
+        ctx.render("user.html", model);
+    }
+
+    public static void showDashboard(Context ctx) {
+        String email = ctx.sessionAttribute("email");
+        String sessionId = ctx.req().getSession().getId();
+
+        if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+            ctx.render("dashboard.html");
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    public static void showCaptureJobDescriptionPage(Context ctx) {
+        ctx.render("capturejobdescription.html");
+    }
+
+    public static void captureJobDescription(Context ctx) {
+        Map<String, String> receivedData = extractJobDescriptionInformation(ctx);
+        
+        
+        String email = controller.handleJobDescription(receivedData);
+        if (email != null) {
+            ctx.redirect("/download-page");
+        } else {
+            ctx.status(401).result("Invalid credentials");
+        }
+    }
+
+    public static void showSettingsPage(Context ctx) {
+        ctx.render("settings.html");
+    }
+
+    public static void generateCv(Context ctx) {
+        String email = ctx.sessionAttribute("email");
+        String sessionId = ctx.req().getSession().getId();
+
+        if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+            ctx.redirect("/download-cv");
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    public static void showDownloadPage(Context ctx) {
+        ctx.render("download.html");
+    }
+
+    public static void downloadCv(Context ctx) throws Exception {
+        String email = ctx.sessionAttribute("email");
+        String sessionId = ctx.req().getSession().getId();
+
+        if (email != null && sessionId.equals(ctx.sessionAttribute("sessionId"))) {
+            String cvFilePath = controller.getCvFilePath(email);
+            sendFile(ctx, cvFilePath);
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    
 
     private static void sendFile(Context ctx, String filePath) throws Exception {
         Path path = Paths.get(filePath);
@@ -149,12 +185,7 @@ public class WebApiStarter {
 
     public static Javalin startServer(String[] args) {
         Javalin app = Javalin.create(config -> {
-
-            config.bundledPlugins.enableCors(cors -> {
-                cors.addRule(it -> {
-                    it.anyHost();
-                });
-            });
+            config.bundledPlugins.enableCors(cors -> cors.addRule(it -> it.anyHost()));
 
             config.staticFiles.add(staticFileConfig -> {
                 staticFileConfig.directory = "src/main/resources/static";
@@ -162,12 +193,12 @@ public class WebApiStarter {
             });
 
             config.fileRenderer(new JavalinThymeleaf(buildTemplateEngine()));
-            });
+        });
 
         return app.start(7000);
     }
 
-    public static TemplateEngine buildTemplateEngine () {
+    public static TemplateEngine buildTemplateEngine() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setPrefix("templates/");
         templateResolver.setSuffix(".html");
@@ -178,20 +209,27 @@ public class WebApiStarter {
         return templateEngine;
     }
 
-    public static Map<String, String> extractLoginInformation (Context ctx) {
+    public static Map<String, String> extractLoginInformation(Context ctx) {
         Map<String, String> loginInformation = new HashMap<>();
         loginInformation.put("email", ctx.formParam("email"));
         loginInformation.put("password", ctx.formParam("password"));
         return loginInformation;
     }
 
-    public static Map<String, String> extractRegistrationInformation (Context ctx) {
-        Map<String, String> loginInformation = new HashMap<>();
-        loginInformation.put("email", ctx.formParam("email"));
-        loginInformation.put("password", ctx.formParam("password"));
-        loginInformation.put("firstname", ctx.formParam("firstname"));
-        loginInformation.put("lastname", ctx.formParam("lastname"));
-        loginInformation.put("confirmpassword", ctx.formParam("confirmpassword"));
-        return loginInformation;
+    public static Map<String, String> extractJobDescriptionInformation(Context ctx) {
+        Map<String, String> jobInformation = new HashMap<>();
+        jobInformation.put("jobdescription", ctx.formParam("jobdescription"));
+        jobInformation.put("email", ctx.sessionAttribute("email"));
+        return jobInformation;
+    }
+
+    public static Map<String, String> extractRegistrationInformation(Context ctx) {
+        Map<String, String> registrationInformation = new HashMap<>();
+        registrationInformation.put("email", ctx.formParam("email"));
+        registrationInformation.put("password", ctx.formParam("password"));
+        registrationInformation.put("firstname", ctx.formParam("firstname"));
+        registrationInformation.put("lastname", ctx.formParam("lastname"));
+        registrationInformation.put("confirmpassword", ctx.formParam("confirmpassword"));
+        return registrationInformation;
     }
 }

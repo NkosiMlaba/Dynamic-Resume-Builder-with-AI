@@ -87,6 +87,34 @@ public class UserController {
         generator.generateCV(email, stringCV);
     }
 
+    public String handleJobDescription (Map<String, String> receivedData) {
+        try {
+            String jobDescription = receivedData.get("jobdescription");
+            jobDescription = cleanData(jobDescription);
+            String email = receivedData.get("email");
+            String existingResume = database.fetchUserData(email);
+            String stringCV = generateResumeAsString(existingResume, jobDescription);
+            generateResumeAsDocument(email, stringCV);
+            return email;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    public static String cleanData (String data) {
+        data = data.replaceAll("\\n{2,}", "\n");
+    
+        data = data.replace("\"", "\\\"")
+                    .replace("\\", "\\\\")
+                    .replace("\n", "\\n")
+                    .replace("\r", "");
+        
+        return data;
+    }
+
+    public String getCvFilePath(String email) {
+        return "src/main/resources/resumes/" + email + "/resume.docx";
+    }
     
 }
