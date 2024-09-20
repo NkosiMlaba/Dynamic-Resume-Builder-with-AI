@@ -40,7 +40,7 @@ public class UserController {
         try {
             String resume = receivedData.get("resume");
             String email = receivedData.get("email");
-            database.updateUserData(email, resume);
+            database.updateUserResume(email, resume);
             return email;
         } catch (Exception e) {
             return null;
@@ -78,6 +78,7 @@ public class UserController {
             } else {
                 //TODO: store user information
                 database.storeUser(receivedData.get("firstname"), receivedData.get("lastname"), receivedData.get("email"), receivedData.get("password"));
+                database.createEntries(receivedData.get("email"));
                 return receivedData.get("email");
             }
         } catch (Exception e) {
@@ -99,7 +100,7 @@ public class UserController {
             String jobDescription = receivedData.get("jobdescription");
             jobDescription = cleanData(jobDescription);
             String email = receivedData.get("email");
-            String existingResume = database.fetchUserData(email);
+            String existingResume = database.fetchUserResume(email);
             String stringCV = generateResumeAsString(existingResume, jobDescription);
             generateResumeAsDocument(email, stringCV);
             return email;

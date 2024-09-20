@@ -11,18 +11,22 @@ public class MainDatabase {
         
         // System.out.println(userLoginManager.isExistingUser("thembani@gmail.com"));
         
-        // userLoginManager.storeUser("Thembani", "Mthembu", "thembani@gmail.com", "password123");
+        userLoginManager.storeUser("Thembani", "Mthembu", "thembani@gmail.com", "password123");
         // System.out.println(userLoginManager.fetchPassword("thembani@gmail.com"));
-        // System.out.println("Password matches? : " + userLoginManager.fetchPassword("thembani@gmail.com").equals("password123"));
+        System.out.println("Password matches? : " + userLoginManager.fetchPassword("thembani@gmail.com").equals("password123"));
 
-        // String userData = readFile("input.txt");
-        // userData = cleanData(userData);
-        // userLoginManager.storeUserData("thembani@gmail.com", userData);
+        String userData = "Resume Data found here";
+        userData = cleanData(userData);
+        userLoginManager.createResumesEntry("thembani@gmail.com");
+        userLoginManager.createJobdescriptionsEntry("thembani@gmail.coHm");
+
+        userLoginManager.updateUserResume("thembani@gmail.com", userData);
+        System.out.println(userLoginManager.fetchUserResume("thembani@gmail.com"));
         
         // System.out.println(userLoginManager.isExistingUser("thembani@gmail.com"));
         // userLoginManager.resetUserData("thembani@gmail.com");
-        userLoginManager.deleteUser("LucaShirlow@jourrapide.com");
-        // userLoginManager.deleteAllUserData();
+        // userLoginManager.deleteUser("thembani@gmail.com"); // Only deletes on the Users table
+        userLoginManager.deleteAllUserData();
 
         // String data = userLoginManager.fetchUserData("thembani@gmail.com");
         // System.out.println(data);

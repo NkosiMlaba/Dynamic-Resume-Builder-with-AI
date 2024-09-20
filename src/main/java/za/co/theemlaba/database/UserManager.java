@@ -50,7 +50,9 @@ public class UserManager {
      * Initializes the database by creating the necessary tables.
      */
     public void initialiseDatabase() {
-        createUserParameters();
+        createUserTable();
+        createUserResumesTable();
+        createUserJobDescriptionsTable();
     }
 
     /**
@@ -60,9 +62,8 @@ public class UserManager {
         String sql = "CREATE TABLE IF NOT EXISTS Users (\n"
                 + " firstname TEXT NOT NULL,\n"
                 + " lastname TEXT NOT NULL,\n"
-                + " email TEXT NOT NULL,\n"
-                + " password TEXT NOT NULL,\n"
-                + " information TEXT"
+                + " email TEXT NOT NULL PRIMARY KEY,\n"
+                + " password TEXT NOT NULL\n"
                 + ");";
         
         try (Connection conn = DriverManager.getConnection(URL);
@@ -75,21 +76,58 @@ public class UserManager {
     }
 
     /**
-     * Creates the Users table if it does not already exist.
+     * Creates the Resumes table if it does not already exist.
      */
     public void createUserResumesTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Users (\n"
-                + " firstname TEXT NOT NULL,\n"
-                + " lastname TEXT NOT NULL,\n"
-
-                + " FOREIGN KEY (name_world) REFERENCES Worlds(email) ON DELETE CASCADE\n"
-                + " information TEXT"
+        String sql = "CREATE TABLE IF NOT EXISTS Resumes (\n"
+                + " resume_email TEXT NOT NULL,\n"
+                + " resume TEXT,\n"
+                + " FOREIGN KEY (resume_email) REFERENCES Users(email) ON DELETE CASCADE\n"
                 + ");";
         
         try (Connection conn = DriverManager.getConnection(URL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Database and Users table created.");
+            System.out.println("Resumes table created.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Creates the Jobdescriptions table if it does not already exist.
+     */
+    public void createUserJobDescriptionsTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS Jobdescriptions (\n"
+                + " jobdescription_email TEXT NOT NULL,\n"
+                + " jobdescription TEXT,\n"
+                + " FOREIGN KEY (jobdescription_email) REFERENCES Users(email) ON DELETE CASCADE"
+                + ");";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+            System.out.println("Jobdescription table created.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Creates the Preferences table if it does not already exist.
+     */
+    // TODO: use method
+    public void createUserPreferencesTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS Preferences (\n"
+                + " preference_email TEXT NOT NULL,\n"
+                + " FOREIGN KEY (preference_email) REFERENCES Users(email) ON DELETE CASCADE\n"
+                + " preferences TEXT"
+                + ");";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+            System.out.println("Preferences table created.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -120,19 +158,34 @@ public class UserManager {
     }
 
     /**
-     * Stores the cv of the user in the database.
+     * Create the entry of the user in the resumes table.
      * @param userEmail The user's email address.
-     * @param userData The user's cv.
      */
-    public void storeUserData (String userEmail, String userData) {
-        String insertQuerry = "UPDATE Users SET information = ? WHERE email = ?";
+    public void createResumesEntry (String userEmail) {
+        String insertQuerry = "INSERT INTO Resumes (resume_email) VALUES (?)";
         
         try (Connection conn = DriverManager.getConnection(URL);
             PreparedStatement statement = conn.prepareStatement(insertQuerry)) {
-            statement.setString(1, userData);
-            statement.setString(2, userEmail);
+            statement.setString(1, userEmail);
             statement.executeUpdate();
-            System.out.println("User data stored successfully.");
+            System.out.println("User resume placeholder stored successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Create the entry of the user in the Job descriptions table.
+     * @param userEmail The user's email address.
+     */
+    public void createJobdescriptionsEntry (String userEmail) {
+        String insertQuerry = "INSERT INTO Jobdescriptions (jobdescription_email) VALUES (?)";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(insertQuerry)) {
+            statement.setString(1, userEmail);
+            statement.executeUpdate();
+            System.out.println("User Jobdescriptions placeholder stored successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,14 +195,14 @@ public class UserManager {
      * Fetches the cv of the user in the database.
      * @param userEmail The user's email address.
      */
-    public String fetchUserData (String userEmail) {
-        String selectQuery = "SELECT information FROM Users WHERE email = ?";
+    public String fetchUserResume (String userEmail) {
+        String selectQuery = "SELECT resume FROM Resumes WHERE resume_email = ?";
         
         try (Connection conn = DriverManager.getConnection(URL);
             PreparedStatement statement = conn.prepareStatement(selectQuery)) {
             statement.setString(1, userEmail);
             ResultSet resultSet = statement.executeQuery();
-            return resultSet.getString("information");
+            return resultSet.getString("resume");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -161,15 +214,15 @@ public class UserManager {
      * @param userEmail The user's email address.
      * @param userData The user's password.
      */
-    public void updateUserData (String userEmail, String userData) {
-        String updateQuery = "UPDATE Users SET information = ? WHERE email = ?";
+    public void updateUserResume (String userEmail, String userData) {
+        String updateQuery = "UPDATE Resumes SET resume = ? WHERE resume_email = ?";
         
         try (Connection conn = DriverManager.getConnection(URL);
             PreparedStatement statement = conn.prepareStatement(updateQuery)) {
             statement.setString(1, userData);
             statement.setString(2, userEmail);
             statement.executeUpdate();
-            System.out.println("User data updated successfully.");
+            System.out.println("User resume updated successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,21 +232,21 @@ public class UserManager {
      * Resets the cv of the user in the database
      * @param userEmail The user's email address.
      */
-    public void resetUserData (String userEmail) {
-        String updateQuery = "UPDATE Users SET information = NULL WHERE email = ?";
+    public void resetUserResume (String userEmail) {
+        String updateQuery = "UPDATE Resumes SET resume = NULL WHERE resume_email = ?";
         
         try (Connection conn = DriverManager.getConnection(URL);
             PreparedStatement statement = conn.prepareStatement(updateQuery)) {
             statement.setString(1, userEmail);
             statement.executeUpdate();
-            System.out.println("User data removed successfully.");
+            System.out.println("User resume removed successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Deletes the user completely in the database
+     * Deletes the user from the Users table in the database
      * @param userEmail The user's email address.
      */
     public void deleteUser (String userEmail) {
@@ -201,6 +254,7 @@ public class UserManager {
         
         try (Connection conn = DriverManager.getConnection(URL);
             PreparedStatement statement = conn.prepareStatement(deleteQuery)) {
+            statement.execute("PRAGMA foreign_keys = ON;");
             statement.setString(1, userEmail);
             statement.executeUpdate();
             System.out.println("User deleted successfully.");
@@ -215,6 +269,9 @@ public class UserManager {
     public void deleteAllUserData () {
         try (Connection conn = DriverManager.getConnection(URL)) {
             conn.createStatement().execute("DROP TABLE IF EXISTS Users");
+            conn.createStatement().execute("DROP TABLE IF EXISTS Resumes");
+            conn.createStatement().execute("DROP TABLE IF EXISTS Jobdescriptions");
+            conn.createStatement().execute("DROP TABLE IF EXISTS Preferences");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -274,5 +331,13 @@ public class UserManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    /**
+     * Calls the methods that create the enrtries in the database
+     */
+    public void createEntries(String email) {
+        createResumesEntry(email);
+        createJobdescriptionsEntry(email);
     }
 }
