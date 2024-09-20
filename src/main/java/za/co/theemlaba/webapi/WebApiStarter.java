@@ -130,8 +130,6 @@ public class WebApiStarter {
 
     public static void captureJobDescription(Context ctx) {
         Map<String, String> receivedData = extractJobDescriptionInformation(ctx);
-        
-        
         String email = controller.handleJobDescription(receivedData);
         if (email != null) {
             ctx.redirect("/download-page");
@@ -170,8 +168,6 @@ public class WebApiStarter {
             ctx.redirect("/login");
         }
     }
-
-    
 
     private static void sendFile(Context ctx, String filePath) throws Exception {
         Path path = Paths.get(filePath);
