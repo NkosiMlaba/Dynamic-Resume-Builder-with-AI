@@ -40,6 +40,7 @@ public class WebApiStarter {
 
         app.get("/capture-job-description", WebApiStarter::showCaptureJobDescriptionPage);
         app.post("/capture-job-description", WebApiStarter::captureJobDescription);
+        app.post("/generate-from-last-job", WebApiStarter::generateFromLastJob);
         
         app.get("/download-page", WebApiStarter::showDownloadPage);
 
@@ -133,7 +134,17 @@ public class WebApiStarter {
     }
 
     public static void showCaptureJobDescriptionPage(Context ctx) {
-        ctx.render("capturejobdescription.html");
+        String email = returnEmailIfValidSession(ctx);
+        
+        if (email != null) {
+            
+            Map<String, Object> model = controller.hasLastJobDescription(email);
+            ctx.render("capturejobdescription.html", model);
+
+        } else {
+            ctx.redirect("/login");
+        }
+        
     }
 
     public static void captureJobDescription(Context ctx) {
@@ -143,6 +154,19 @@ public class WebApiStarter {
             ctx.redirect("/download-page");
         } else {
             ctx.redirect("/dashboard");
+        }
+    }
+
+    public static void generateFromLastJob(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+        
+        if (email != null) {
+            
+            email = controller.regenerateResume(email);
+            ctx.render("download.html");
+            
+        } else {
+            ctx.redirect("/login");
         }
     }
 

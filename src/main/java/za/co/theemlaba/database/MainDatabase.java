@@ -17,15 +17,20 @@ public class MainDatabase {
 
         String userData = "Resume Data found here";
         userData = cleanData(userData);
-        userLoginManager.createResumesEntry("thembani@gmail.com");
-        userLoginManager.createJobdescriptionsEntry("thembani@gmail.coHm");
+        userLoginManager.createEntries("thembani@gmail.com");
 
         userLoginManager.updateUserResume("thembani@gmail.com", userData);
         System.out.println(userLoginManager.fetchUserResume("thembani@gmail.com"));
         
+        System.out.println(userLoginManager.hasExistingJobDescription("thembani@gmail.com"));
+        userLoginManager.updateUserJobDescription("thembani@gmail.com", "software developer");
+        System.out.println(userLoginManager.fetchUserJobDescription("thembani@gmail.com"));
         // System.out.println(userLoginManager.isExistingUser("thembani@gmail.com"));
         // userLoginManager.resetUserData("thembani@gmail.com");
         // userLoginManager.deleteUser("thembani@gmail.com"); // Only deletes on the Users table
+        
+        
+        
         userLoginManager.deleteAllUserData();
 
         // String data = userLoginManager.fetchUserData("thembani@gmail.com");

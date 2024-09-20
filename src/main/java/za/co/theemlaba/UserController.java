@@ -1,5 +1,6 @@
 package za.co.theemlaba;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import za.co.theemlaba.database.*;
@@ -103,6 +104,7 @@ public class UserController {
             String existingResume = database.fetchUserResume(email);
             String stringCV = generateResumeAsString(existingResume, jobDescription);
             generateResumeAsDocument(email, stringCV);
+            database.updateUserJobDescription(email, jobDescription);
             return email;
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,6 +123,29 @@ public class UserController {
 
     public String getCvFilePath(String email) {
         return "src/main/resources/resumes/" + email + "/resume.docx";
+    }
+
+    public String regenerateResume (String email) {
+        String existingResume = database.fetchUserResume(email);
+        String jobDescription = database.fetchUserJobDescription(email);
+        String stringCV = generateResumeAsString(existingResume, jobDescription);
+        generateResumeAsDocument(email, stringCV);
+        return email;
+    }
+
+    public Map<String, Object> hasLastJobDescription (String email) {
+        Map<String, Object> model = new HashMap<>();
+        
+        if (database.hasExistingJobDescription(email)) {
+            String lastJobDescription = database.fetchUserJobDescription(email);
+            model.put("hasLastJobDescription", lastJobDescription!= null);
+            model.put("lastJobDescription", lastJobDescription);
+        } else {
+            model.put("hasLastJobDescription", false);
+            model.put("lastJobDescription", null);
+        }
+        
+        return model;
     }
     
 }

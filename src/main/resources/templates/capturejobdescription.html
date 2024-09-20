@@ -13,6 +13,16 @@
 
     <!-- capture-job-container -->
     <div class="capture-job-container">
+        
+        <!-- Div for last job description and button to generate from it -->
+        <div th:if="${hasLastJobDescription}">
+            <h1>Last Job Description</h1>
+            <p th:text="${lastJobDescription}">Last job description text goes here</p>
+            <form action="/generate-from-last-job" method="post">
+                <button type="submit">Generate from Last Job Description</button>
+            </form>
+        </div>
+        
         <form action="/capture-job-description" method="post">
             <h1>Capture Job Description</h1>
             <span>Enter the job description</span>

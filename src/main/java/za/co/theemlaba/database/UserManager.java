@@ -210,9 +210,27 @@ public class UserManager {
     }
 
     /**
+     * Fetches the cv of the user in the database.
+     * @param userEmail The user's email address.
+     */
+    public String fetchUserJobDescription (String userEmail) {
+        String selectQuery = "SELECT jobdescription FROM Jobdescriptions WHERE jobdescription_email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(selectQuery)) {
+            statement.setString(1, userEmail);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.getString("jobdescription");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * Updates the cv of the user in the database with a new one
      * @param userEmail The user's email address.
-     * @param userData The user's password.
+     * @param userData The user's resume.
      */
     public void updateUserResume (String userEmail, String userData) {
         String updateQuery = "UPDATE Resumes SET resume = ? WHERE resume_email = ?";
@@ -223,6 +241,25 @@ public class UserManager {
             statement.setString(2, userEmail);
             statement.executeUpdate();
             System.out.println("User resume updated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates the cv of the user in the database with a new one
+     * @param userEmail The user's email address.
+     * @param userJobDescription The user's job description.
+     */
+    public void updateUserJobDescription (String userEmail, String userJobDescription) {
+        String updateQuery = "UPDATE Jobdescriptions SET jobdescription = ? WHERE jobdescription_email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+            statement.setString(1, userJobDescription);
+            statement.setString(2, userEmail);
+            statement.executeUpdate();
+            System.out.println("User job description updated successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -314,6 +351,29 @@ public class UserManager {
             }
         }
         catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Fetches the cv of the user in the database.
+     * @param userEmail The user's email address.
+     */
+    public boolean hasExistingJobDescription (String userEmail) {
+        String selectQuery = "SELECT jobdescription FROM Jobdescriptions WHERE jobdescription_email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(selectQuery)) {
+            statement.setString(1, userEmail);
+            ResultSet resultSet = statement.executeQuery();
+            String data = resultSet.getString("jobdescription");
+            if (data != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
