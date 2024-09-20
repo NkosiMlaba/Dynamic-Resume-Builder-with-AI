@@ -44,7 +44,7 @@ public class WebApiStarter {
         
         app.get("/download-page", WebApiStarter::showDownloadPage);
 
-        // app.post("/generate-cv", WebApiStarter::generateCv);
+        app.get("/regenerate-and-download", WebApiStarter::regenerateAndDownload);
         app.get("/download-cv", WebApiStarter::downloadCv);
 
         app.get("/settings", WebApiStarter::showSettingsPage);
@@ -170,6 +170,18 @@ public class WebApiStarter {
         }
     }
 
+    public static void regenerateAndDownload(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+
+        if (email != null) {
+            email = controller.regenerateResume(email);
+            downloadCv(ctx);
+
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
     public static void showSettingsPage(Context ctx) {
         ctx.render("settings.html");
     }
@@ -187,7 +199,7 @@ public class WebApiStarter {
         ctx.render("download.html");
     }
 
-    public static void downloadCv(Context ctx) throws Exception {
+    public static void downloadCv(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         if (email != null) {
             String cvFilePath = controller.getCvFilePath(email);
@@ -197,14 +209,20 @@ public class WebApiStarter {
         }
     }
 
-    private static void sendFile(Context ctx, String filePath) throws Exception {
+    private static void sendFile(Context ctx, String filePath) {
         Path path = Paths.get(filePath);
-        if (Files.exists(path)) {
-            ctx.header("Content-Disposition", "attachment; filename=" + path.getFileName().toString());
-            ctx.result(Files.newInputStream(path));
-        } else {
+        try {
+            if (Files.exists(path)) {
+                ctx.header("Content-Disposition", "attachment; filename=" + path.getFileName().toString());
+                ctx.result(Files.newInputStream(path));
+            } else {
+                ctx.status(404).result("File not found");
+            }
+        } catch (Exception e) {
             ctx.status(404).result("File not found");
         }
+        
+        
     }
 
     public static Javalin startServer(String[] args) {

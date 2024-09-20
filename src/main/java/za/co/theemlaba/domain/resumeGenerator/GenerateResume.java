@@ -12,19 +12,16 @@ import java.io.File;
 
 public class GenerateResume {
     String filePath = "src/main/resources/resumes/";
-    
-
-    public void updatePaths (String email) {
-        filePath += email + "/";
-    }
 
     public void generateCV(String email, String input) {
-        updatePaths(email);
-        createUserDirectory();
+        createUserDirectory(email);
         input = removeMessageBeforeColon(input);
-        XWPFDocument document = new XWPFDocument();
+        generateDocument(email, input);
+    }
 
-        try (FileOutputStream out = new FileOutputStream(filePath + "resume.docx")) {
+    public void generateDocument (String email, String input) {
+        XWPFDocument document = new XWPFDocument();
+        try (FileOutputStream out = new FileOutputStream(filePath + email + "/resume.docx")) {
             processDocument(document, input);
             document.write(out);
             System.out.println("CV created successfully.");
@@ -33,8 +30,8 @@ public class GenerateResume {
         }
     }
 
-    public void createUserDirectory() {
-        File directory = new File(filePath);
+    public void createUserDirectory(String email) {
+        File directory = new File(filePath + email);
         if (!directory.exists()) {
             directory.mkdirs();
         }
