@@ -6,6 +6,16 @@ The "Dynamic Resume Builder with AI" is platform designed to help job seekers cr
 ## Project Status: ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 This project is currently in active development.
 
+Features implemented thus far are (not an exhaustive list):
+- User registration and authentication
+- Capturing and saving a user's current resume to a database
+- Capturing a job description and generating an ATS friendly resume tailored to it
+- Generating a cover letter using resume only
+- Generating a cover letter tailored to a job description
+- Changing resume and cover letter file formats
+- Error handling:
+    - Redirecting users to login page if they do not have valid session id
+
 ## System requirements:
 - Java 11 or higher
 - Internet browser
