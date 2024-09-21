@@ -1,8 +1,5 @@
 package za.co.theemlaba.database;
 
-import java.io.IOException;
-import java.nio.file.*;
-
 // A testing class, to test new features individually
 public class MainDatabase {
     static UserManager userLoginManager = new UserManager();
@@ -41,19 +38,8 @@ public class MainDatabase {
 
     }
 
-    private static String readFile(String filePath) {
-        try {
-            return new String(Files.readAllBytes(Paths.get(filePath)));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static String cleanData (String data) {
     data = data.replaceAll("\\n{2,}", "\n");
-
-    // Escape problematic characters for JSON
     data = data.replace("\"", "\\\"")
                 .replace("\\", "\\\\")
                 .replace("\n", "\\n")

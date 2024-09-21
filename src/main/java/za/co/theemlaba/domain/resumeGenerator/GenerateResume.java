@@ -25,7 +25,6 @@ public class GenerateResume {
         generatePDF(email, input);
     }
 
-    // 1. Generate Word Document (.docx)
     public void generateDocument(String email, String input) {
         XWPFDocument document = new XWPFDocument();
         try (FileOutputStream out = new FileOutputStream(filePath + email + "/resume.docx")) {
@@ -37,7 +36,6 @@ public class GenerateResume {
         }
     }
 
-    // 2. Generate Plain Text File (.txt)
     public void generateTxt(String email, String input) {
         try (FileWriter writer = new FileWriter(filePath + email + "/resume.txt")) {
             writer.write(input);
@@ -47,7 +45,6 @@ public class GenerateResume {
         }
     }
 
-    // 3. Generate PDF File (.pdf)
     public void generatePDF(String email, String input) {
         Document document = new Document();
         try (FileOutputStream out = new FileOutputStream(filePath + email + "/resume.pdf")) {

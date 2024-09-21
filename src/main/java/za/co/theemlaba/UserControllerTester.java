@@ -1,12 +1,8 @@
 package za.co.theemlaba;
-import java.util.Map;
-
-import java.util.HashMap;
 
 public class UserControllerTester {
     public static void main(String[] args) {
         UserController controller = new UserController();
-        Map<String, String> userMap = new HashMap<>();
         
         // userMap.put("email", "thembani@gmail.com");
         // userMap.put("password", "password123");

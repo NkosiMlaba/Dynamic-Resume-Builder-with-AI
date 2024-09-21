@@ -75,7 +75,6 @@ public class UserController {
             } else if (database.isExistingUser(receivedData.get("email"))) {
                 return null;
             } else {
-                //TODO: store user information
                 database.storeUser(receivedData.get("firstname"), receivedData.get("lastname"), receivedData.get("email"), receivedData.get("password"));
                 database.createEntries(receivedData.get("email"), defaultDocType);
                 return receivedData.get("email");
