@@ -41,16 +41,32 @@ public class WebApiStarter {
         app.get("/capture-job-description", WebApiStarter::showCaptureJobDescriptionPage);
         app.post("/capture-job-description", WebApiStarter::captureJobDescription);
         app.post("/generate-from-last-job", WebApiStarter::generateFromLastJob);
-        
+
         app.get("/download-page", WebApiStarter::showDownloadPage);
-
-        app.get("/capture-cover-letter-description", WebApiStarter::showCaptureCoverLetterPage);
-        app.post("/capture-cover-letter-description", WebApiStarter::captureCoverLetterDescription);
-        app.post("/generate-cover-letter", WebApiStarter::generateCoverLetter);
-        app.post("/generate-cover-letter-from-last-job", WebApiStarter::generateCoverLetterFromLastJob);
-
         app.get("/regenerate-and-download", WebApiStarter::regenerateResumeAndDownload);
         app.get("/download-cv", WebApiStarter::downloadResume);
+
+        // cover letter
+        // must show last job description
+        app.get("/capture-cover-letter-description", WebApiStarter::showCaptureCoverLetterPage);
+        // capture
+        app.post("/capture-cover-letter-description", WebApiStarter::captureCoverLetterDescription);
+        // no resume
+        app.get("/generate-cover-letter", WebApiStarter::generateCoverLetter);
+        // last description
+        app.post("/generate-cover-letter-from-last", WebApiStarter::generateCoverLetterFromLastJob);
+        
+        // download
+        app.get("/download-page-cover-letter", WebApiStarter::showDownloadCoverLetter);
+        // regenerate and download without resume
+        app.get("/regenerate-cover-letter", WebApiStarter::generate);
+        // regenerate and download from last
+        app.get("/regenerate-cover-letter-from-last", WebApiStarter::);
+        // download current
+        app.get("/download-cover-letter", WebApiStarter::downloadCoverLetter);
+
+
+
 
         app.get("/settings", WebApiStarter::showSettingsPage);
         app.post("/settings", WebApiStarter::handleSettingsUpdate);
@@ -175,6 +191,17 @@ public class WebApiStarter {
         }
     }
 
+    public static void regenerateResumeAndDownload(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+
+        if (email != null) {
+            email = controller.regenerateResume(email);
+            downloadResume(ctx);
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
     public static void generateFromLastJob(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         
@@ -189,10 +216,10 @@ public class WebApiStarter {
     }
 
     public static void captureCoverLetterDescription(Context ctx) {
-        Map<String, String> receivedData = extractJobDescriptionInformation(ctx);
+        Map<String, String> receivedData = extractCoverLetterDescriptionInformation(ctx);
         String email = controller.handleCoverLetterDescription(receivedData);
         if (email != null) {
-            ctx.redirect("/download-page");
+            ctx.redirect("/download-page-cover-letter");
         } else {
             ctx.redirect("/dashboard");
         }
@@ -203,24 +230,15 @@ public class WebApiStarter {
         
         if (email != null) {
             
-            email = controller.regenerateCoverLetterFromLastJob(email);
-            ctx.render("download.html");
+            email = controller.generateCoverLetterFromLastJob(email);
+            ctx.render("downloadcoverletter.html");
             
         } else {
             ctx.redirect("/login");
         }
     }
 
-    public static void regenerateResumeAndDownload(Context ctx) {
-        String email = returnEmailIfValidSession(ctx);
-
-        if (email != null) {
-            email = controller.regenerateResume(email);
-            downloadCoverLetter(ctx);
-        } else {
-            ctx.redirect("/login");
-        }
-    }
+    
 
     public static void regenerateCoverLetterAndDownload(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
@@ -228,6 +246,17 @@ public class WebApiStarter {
         if (email != null) {
             email = controller.regenerateCoverLetter(email);
             downloadCoverLetter(ctx);
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    public static void generateCoverLetter (Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+
+        if (email != null) {
+            email = controller.generateCoverLetter(email);
+            ctx.render("downloadcoverletter.html");
         } else {
             ctx.redirect("/login");
         }
@@ -332,6 +361,13 @@ public class WebApiStarter {
     public static Map<String, String> extractJobDescriptionInformation(Context ctx) {
         Map<String, String> jobInformation = new HashMap<>();
         jobInformation.put("jobdescription", ctx.formParam("jobdescription"));
+        jobInformation.put("email", ctx.sessionAttribute("email"));
+        return jobInformation;
+    }
+
+    public static Map<String, String> extractCoverLetterDescriptionInformation(Context ctx) {
+        Map<String, String> jobInformation = new HashMap<>();
+        jobInformation.put("coveletterdescription", ctx.formParam("coveletterdescription"));
         jobInformation.put("email", ctx.sessionAttribute("email"));
         return jobInformation;
     }

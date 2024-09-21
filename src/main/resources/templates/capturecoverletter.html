@@ -16,7 +16,7 @@
         
         <div>
             <h1>Generate cover letter using resume only</h1>
-            
+            <a href="/generate-cover-letter"><button>Generate</button></a>
         </div>
 
 
@@ -24,19 +24,19 @@
         <div th:if="${hasLastJobDescription}">
             <h1>Last Job Description</h1>
             <p th:text="${lastJobDescription}">Last job description text goes here</p>
-            <form action="/generate-from-last-job" method="post">
-                <button type="submit">Generate from Last Job Description</button>
+            <form action="/generate-cover-letter-from-last" method="post">
+                <button type="submit">Generate</button>
             </form>
         </div>
         
         <div>
-            <form action="/capture-job-description" method="post">
-                <h1>Capture Job Description</h1>
-                <span>Enter the job description</span>
+            <form action="/capture-cover-letter-description" method="post">
+                <h1>Capture Cover Letter Description</h1>
+                <span>Enter the description</span>
                 
                 <!-- Job Description Input -->
-                <label for="jobdescription">Job Description:</label>
-                <textarea id="jobdescription" name="jobdescription" rows="30" cols="50"></textarea>
+                <label for="coveletterdescription">Cover Letter Description:</label>
+                <textarea id="coveletterdescription" name="coveletterdescription" rows="30" cols="50"></textarea>
                 <button type="submit">Capture</button>
             </form>
         </div>
