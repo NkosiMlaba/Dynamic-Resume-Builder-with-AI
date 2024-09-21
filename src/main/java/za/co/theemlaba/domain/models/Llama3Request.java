@@ -48,6 +48,36 @@ public class Llama3Request {
         return content;
     }
 
+    public String generateCoverLetterFromLlama (String existingResume, String coverLetter, boolean includesDescription) {
+        Dotenv dotenv = Dotenv.configure().load();
+        String apiKey = dotenv.get("GROQ_API_KEY");
+
+        if (apiKey == null) {
+            throw new IllegalStateException("API_KEY environment variable not set");
+        }
+
+        String prompt = null;
+        if (includesDescription) {
+            prompt = "Generate cover letter for this job description: '" + coverLetter + "' using this cv '" + existingResume + "'";
+        } else {
+            prompt = "Generate cover letter using this cv '" + existingResume + "'";
+        }
+        
+        HttpResponse<JsonNode> response = sendGroqRequest(makeJsonString(prompt), apiKey);
+
+        System.out.println(response.getStatus());
+        JsonNode jsonObject = response.getBody();
+        System.out.println(jsonObject.toString());
+
+        JSONObject choicesObject = jsonObject.getObject()
+                                             .getJSONArray("choices")
+                                             .getJSONObject(0)
+                                             .getJSONObject("message");
+        String content = choicesObject.getString("content");
+        System.out.println(content);
+        return content;
+    }
+
     public HttpResponse<JsonNode> sendGroqRequest(String launchString, String apiKey) {
         return Unirest.post("https://api.groq.com/openai/v1/chat/completions")
                 .header("Content-Type", "application/json")

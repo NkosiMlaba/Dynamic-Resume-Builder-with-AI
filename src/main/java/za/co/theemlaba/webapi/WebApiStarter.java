@@ -5,6 +5,7 @@ import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 import io.javalin.http.Context;
 import org.apache.log4j.chainsaw.Main;
+import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.nio.file.Paths;
@@ -24,12 +25,17 @@ public class WebApiStarter {
     public static void main(String[] args) {
         Javalin app = startServer(args);
 
+        createStopListenerThread(app);
+        createShutdownHook(app);
+
         app.before(WebApiStarter::logRequest);
         app.after(WebApiStarter::logResponse);
 
         app.get("/", WebApiStarter::showHomePage);
+        
         app.get("/register", WebApiStarter::showRegistrationPage);
         app.post("/register", WebApiStarter::handleRegistration);
+        
         app.get("/login", WebApiStarter::showLoginPage);
         app.post("/login", WebApiStarter::handleLogin);
 
@@ -46,27 +52,15 @@ public class WebApiStarter {
         app.get("/regenerate-and-download", WebApiStarter::regenerateResumeAndDownload);
         app.get("/download-cv", WebApiStarter::downloadResume);
 
-        // cover letter
-        // must show last job description
         app.get("/capture-cover-letter-description", WebApiStarter::showCaptureCoverLetterPage);
-        // capture
         app.post("/capture-cover-letter-description", WebApiStarter::captureCoverLetterDescription);
-        // no resume
         app.get("/generate-cover-letter", WebApiStarter::generateCoverLetter);
-        // last description
         app.post("/generate-cover-letter-from-last", WebApiStarter::generateCoverLetterFromLastJob);
         
-        // download
         app.get("/download-page-cover-letter", WebApiStarter::showDownloadCoverLetter);
-        // regenerate and download without resume
-        app.get("/regenerate-cover-letter", WebApiStarter::generate);
-        // regenerate and download from last
-        app.get("/regenerate-cover-letter-from-last", WebApiStarter::);
-        // download current
+        app.get("/regenerate-cover-letter", WebApiStarter::regenerateCoverLetterAndDownload);
+        app.get("/regenerate-cover-letter-from-last", WebApiStarter::regenerateCoverLetterFromDescriptionAndDownload);
         app.get("/download-cover-letter", WebApiStarter::downloadCoverLetter);
-
-
-
 
         app.get("/settings", WebApiStarter::showSettingsPage);
         app.post("/settings", WebApiStarter::handleSettingsUpdate);
@@ -171,10 +165,8 @@ public class WebApiStarter {
         String email = returnEmailIfValidSession(ctx);
         
         if (email != null) {
-            
             Map<String, Object> model = controller.hasLastJobDescription(email);
             ctx.render("capturejobdescription.html", model);
-
         } else {
             ctx.redirect("/login");
         }
@@ -230,7 +222,7 @@ public class WebApiStarter {
         
         if (email != null) {
             
-            email = controller.generateCoverLetterFromLastJob(email);
+            email = controller.generateCoverLetterFromDescription(email);
             ctx.render("downloadcoverletter.html");
             
         } else {
@@ -238,13 +230,22 @@ public class WebApiStarter {
         }
     }
 
-    
-
     public static void regenerateCoverLetterAndDownload(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
 
         if (email != null) {
-            email = controller.regenerateCoverLetter(email);
+            email = controller.generateCoverLetter(email);
+            downloadCoverLetter(ctx);
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    public static void regenerateCoverLetterFromDescriptionAndDownload(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+
+        if (email != null) {
+            email = controller.generateCoverLetterFromDescription(email);
             downloadCoverLetter(ctx);
         } else {
             ctx.redirect("/login");
@@ -289,10 +290,24 @@ public class WebApiStarter {
         ctx.render("download.html");
     }
 
+    public static void showDownloadCoverLetter(Context ctx) {
+        ctx.render("downloadcoverletter.html");
+    }
+
     public static void downloadResume(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         if (email != null) {
             String resumeFilePath = controller.getResumeFilePath(email);
+            sendFile(ctx, resumeFilePath);
+        } else {
+            ctx.redirect("/login");
+        }
+    }
+
+    public static void downloadCoverLetter(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+        if (email != null) {
+            String resumeFilePath = controller.getCoverLetterFilePath(email);
             sendFile(ctx, resumeFilePath);
         } else {
             ctx.redirect("/login");
@@ -309,10 +324,8 @@ public class WebApiStarter {
                 ctx.status(404).result("File not found");
             }
         } catch (Exception e) {
-            ctx.status(404).result("File not found");
+            ctx.status(404).result("File not found error code " + e.getMessage());
         }
-        
-        
     }
 
     public static Javalin startServer(String[] args) {
@@ -386,5 +399,29 @@ public class WebApiStarter {
         registrationInformation.put("lastname", ctx.formParam("lastname"));
         registrationInformation.put("confirmpassword", ctx.formParam("confirmpassword"));
         return registrationInformation;
+    }
+
+    public static void createStopListenerThread (Javalin app) {
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase("stop")) {
+                    System.out.println("Shutting down server...");
+                    app.stop();
+                    break;
+                }
+            }
+            scanner.close();
+        }).start();
+    }
+
+    public static void createShutdownHook(Javalin app) {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (app != null) {
+                System.out.println("Shutting down server...");
+                app.stop();
+            }
+        }));
     }
 }

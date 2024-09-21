@@ -11,6 +11,7 @@ public class UserController {
     private UserManager database = new UserManager();
     private Llama3Request request = new Llama3Request();
     private GenerateResume generator = new GenerateResume();
+    private GenerateCoverLetter generatorCoverLetter = new GenerateCoverLetter();
     private String defaultDocType = ".docx";
 
 
@@ -47,10 +48,6 @@ public class UserController {
         } catch (Exception e) {
             return null;
         }
-    }
-
-    public String handleLogin(String receivedData) {
-        return null;
     }
 
     public String authenticateUser(Map<String, String> receivedData) {
@@ -97,6 +94,14 @@ public class UserController {
         generator.generateCV(email, stringCV);
     }
 
+    public String generateCoverLetterAsString (String existingResume, String jobDescription, boolean includesDescription) {
+        return request.generateCoverLetterFromLlama(existingResume, jobDescription, includesDescription);
+    }
+
+    public void generateCoverLetterAsDocument (String email, String stringCoverLetter) {
+        generatorCoverLetter.generateCoverLetter(email, stringCoverLetter);
+    }
+
     public String handleJobDescription (Map<String, String> receivedData) {
         try {
             String jobDescription = receivedData.get("jobdescription");
@@ -106,6 +111,21 @@ public class UserController {
             String stringCV = generateResumeAsString(existingResume, jobDescription);
             generateResumeAsDocument(email, stringCV);
             database.updateUserJobDescription(email, jobDescription);
+            return email;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String handleCoverLetterDescription (Map<String, String> receivedData) {
+        try {
+            String coverLetterDescription = receivedData.get("coveletterdescription");
+            coverLetterDescription = cleanData(coverLetterDescription);
+            String email = receivedData.get("email");
+            String existingResume = database.fetchUserResume(email);
+            String stringCoverLetter = generateCoverLetterAsString(existingResume, coverLetterDescription, true);
+            generateCoverLetterAsDocument(email, stringCoverLetter);
             return email;
         } catch (Exception e) {
             e.printStackTrace();
@@ -140,9 +160,13 @@ public class UserController {
     }
 
     public String getResumeFilePath(String email) {
-        // TODO
         String preferrefFormat = database.fetchUserDocTypePreference(email);
         return "src/main/resources/resumes/" + email + "/resume" + preferrefFormat;
+    }
+
+    public String getCoverLetterFilePath(String email) {
+        String preferrefFormat = database.fetchUserDocTypePreference(email);
+        return "src/main/resources/resumes/" + email + "/coverletter" + preferrefFormat;
     }
 
     public String regenerateResume (String email) {
@@ -150,6 +174,21 @@ public class UserController {
         String jobDescription = database.fetchUserJobDescription(email);
         String stringCV = generateResumeAsString(existingResume, jobDescription);
         generateResumeAsDocument(email, stringCV);
+        return email;
+    }
+
+    public String generateCoverLetter (String email) {
+        String existingResume = database.fetchUserResume(email);
+        String stringCV = generateCoverLetterAsString(existingResume, "", false);
+        generateCoverLetterAsDocument(email, stringCV);
+        return email;
+    }
+
+    public String generateCoverLetterFromDescription (String email) {
+        String existingResume = database.fetchUserResume(email);
+        String coverLetterDescription = database.fetchUserJobDescription(email);
+        String stringCV = generateCoverLetterAsString(existingResume, coverLetterDescription, true);
+        generateCoverLetterAsDocument(email, stringCV);
         return email;
     }
 
