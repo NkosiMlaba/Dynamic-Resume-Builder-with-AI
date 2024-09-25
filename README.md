@@ -3,6 +3,9 @@
 ## Project Description:
 The "Dynamic Resume Builder with AI" is platform designed to help job seekers create professional, optimized resumes that stand out to recruiters and pass through Applicant Tracking Systems (ATS).
 
+## Output ([Main README](program-output/Gallery.md))
+![Demo](program-output/4.png)
+
 ## Project Status: ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 This project is currently in active development.
 
