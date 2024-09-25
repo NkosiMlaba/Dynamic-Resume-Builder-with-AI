@@ -33,7 +33,6 @@ public class GenerateResume extends DocumentProcessor{
         }
     }
 
-    // Utility method to process and format the Word document content
     private static void processDocument(XWPFDocument document, String input) {
         String[] lines = input.split("\n");
         XWPFParagraph paragraph;
@@ -48,7 +47,6 @@ public class GenerateResume extends DocumentProcessor{
                 run.setBold(true);
                 run.setFontSize(12);
                 paragraph.setSpacingAfter(200);
-                // paragraph.setAlignment(ParagraphAlignment.LEFT);
 
             } else if (line.startsWith("* ")) {
                 String bullet = line.replace("* ", "• ").trim();

@@ -14,7 +14,6 @@ import java.io.FileInputStream;
 
 public class DocumentProcessor {
     
-    // Remove everything before the colon for formatting purposes
     public static String removeMessageBeforeColon(String input) {
         int colonIndex = input.indexOf(":\n\n**");
         if (colonIndex != -1 && colonIndex + 1 < input.length()) {
@@ -58,7 +57,6 @@ public class DocumentProcessor {
         }
     }
 
-    // Method to extract text from a DOCX document
     public String extractTextFromDocx(XWPFDocument document) {
         StringBuilder text = new StringBuilder();
         for (XWPFParagraph paragraph : document.getParagraphs()) {
@@ -68,7 +66,6 @@ public class DocumentProcessor {
     }
 
     public void convertDocxToPdf(String input, String output) {
-        // This method can be similar to your generatePDF but reads the existing DOCX
         try (FileInputStream fis = new FileInputStream(input);
             FileOutputStream out = new FileOutputStream(output)) {
             XWPFDocument document = new XWPFDocument(fis);
@@ -85,7 +82,6 @@ public class DocumentProcessor {
         }
     }
 
-    // Utility method to create user directory if it does not exist
     public void createUserDirectory(String path) {
         File directory = new File(path);
         if (!directory.exists()) {

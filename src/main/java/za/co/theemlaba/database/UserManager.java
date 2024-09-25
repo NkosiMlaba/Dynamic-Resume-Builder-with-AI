@@ -210,7 +210,7 @@ public class UserManager {
     }
 
     /**
-     * Fetches the cv of the user in the database.
+     * Fetches the preferred document format of the user in the database.
      * @param userEmail The user's email address.
      */
     public String fetchUserDocTypePreference (String userEmail) {
@@ -228,7 +228,7 @@ public class UserManager {
     }
 
     /**
-     * Fetches the cv of the user in the database.
+     * Fetches the resume of the user in the database.
      * @param userEmail The user's email address.
      */
     public String fetchUserResume (String userEmail) {
@@ -246,7 +246,7 @@ public class UserManager {
     }
 
     /**
-     * Fetches the cv of the user in the database.
+     * Fetches the last used job description of the user in the database.
      * @param userEmail The user's email address.
      */
     public String fetchUserJobDescription (String userEmail) {
@@ -264,7 +264,7 @@ public class UserManager {
     }
 
     /**
-     * Updates the cv of the user in the database with a new one
+     * Updates the resume of the user in the database with a new one
      * @param userEmail The user's email address.
      * @param userData The user's resume.
      */
@@ -283,7 +283,7 @@ public class UserManager {
     }
 
     /**
-     * Updates the cv of the user in the database with a new one
+     * Updates the last use job description of the user in the database with a new one
      * @param userEmail The user's email address.
      * @param userJobDescription The user's job description.
      */
@@ -321,7 +321,7 @@ public class UserManager {
     }
 
     /**
-     * Resets the cv of the user in the database
+     * Resets the resume of the user in the database
      * @param userEmail The user's email address.
      */
     public void resetUserResume (String userEmail) {
@@ -412,7 +412,7 @@ public class UserManager {
     }
 
     /**
-     * Fetches the last used job description of the user in the database.
+     * Checks if the user has a job description in the database.
      * @param userEmail The user's email address.
      */
     public boolean hasExistingJobDescription (String userEmail) {
@@ -435,7 +435,7 @@ public class UserManager {
     }
 
     /**
-     * Fetches the resume of the user in the database.
+     * Checks if the user has an existing resume in the database.
      * @param userEmail The user's email address.
      */
     public boolean hasExistingResume (String userEmail) {

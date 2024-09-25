@@ -33,7 +33,6 @@ public class GenerateCoverLetter extends DocumentProcessor {
         }
     }
 
-    // Utility method to process and format the Word document content
     private static void processDocument(XWPFDocument document, String input) {
         String[] lines = input.split("\n");
         XWPFParagraph paragraph;
