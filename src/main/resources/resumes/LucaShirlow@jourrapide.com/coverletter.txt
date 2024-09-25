@@ -1,26 +1,10 @@
-Here's a cover letter for a Software Developer position using Janna Gardner's CV:
-
-[Date]
-
-[Recipient’s Name]
-[Title]
-[Company Name]
-[Address]
-
-Dear [Recipient’s Name],
-
-I'm thrilled to apply for the Software Developer position at [Company Name]. With six years of experience as a Human Resources Generalist, I'm excited to leverage my skills in a new capacity and bring a unique perspective to your development team.
-
-Throughout my career, I've developed strong problem-solving skills, often tackling complex issues and streamlining processes to improve efficiency. As a Human Resources Generalist, I've worked closely with teams to identify and implement solutions, which has given me a strong appreciation for the importance of effective communication and collaboration.
-
-I'm confident that my experience in reviewing and implementing HR policies can be adapted to software development. I'm eager to bring my analytical mind and organized approach to a new challenge, ensuring that projects are executed with precision and attention to detail.
-
-As a self-motivated individual with excellent communication skills, I thrive in fast-paced environments and am comfortable working independently. I'm excited to apply my strong negotiation skills to collaborating with cross-functional teams and driving projects forward.
-
-While I may not have direct experience in software development, I'm a quick learner with a strong foundation in problem-solving, analysis, and project management. I'm eager to apply my skills in a new context and learn from experienced developers.
-
-Thank you for considering my application. I'd welcome the opportunity to discuss how my unique blend of skills and experience can contribute to your team's success. Please feel free to contact me at (716) 555-0100 or janna@example.com.
-
+Here's a cover letter for a Software Developer position using the CV provided:
+Dear Hiring Manager,
+I am excited to apply for the Software Developer position at [Company Name]. With a unique background in human resources and a passion for technology, I am confident that my skills and experience make me an ideal candidate for this role.
+As a Human Resources Generalist with 6+ years of experience, I have developed strong technical and problem-solving skills, which I believe will serve me well in a software development role. My experience in reviewing and revising company policies and procedures to ensure compliance with regulations has given me a strong foundation in data analysis and interpretation. I am excited to apply these skills to writing clean, efficient, and well-documented code.
+In my current role at Lamna Healthcare Company, I have improved employee retention rates by over 10% by creating and maintaining a positive and responsive work environment. I believe that my ability to communicate effectively with both technical and non-technical stakeholders will be a valuable asset in a software development team. My experience working independently and as part of a team has taught me the importance of collaboration, flexibility, and attention to detail.
+I am particularly drawn to this software development role at [Company Name] because of the opportunity to work on challenging projects that will impact the company's success. I am excited about the prospect of working with a talented team of developers to design, develop, and deliver high-quality software solutions.
+In addition to my technical skills and experience, I possess excellent communication and interpersonal skills, which have been essential in my HR roles. I am confident that my ability to negotiate and resolve conflicts will be valuable in a software development team.
+Thank you for considering my application. I would welcome the opportunity to discuss how my skills and experience align with the requirements of this role. Please feel free to contact me at (716) 555-0100 or janna@example.com.
 Sincerely,
-
 Janna Gardner

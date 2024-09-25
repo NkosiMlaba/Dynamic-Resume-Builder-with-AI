@@ -34,6 +34,9 @@ public class UserControllerTester {
         String userCV = controller.generateResumeAsString("thembani@gmail.com", role);
         controller.generateResumeAsDocument("thembani@gmail.com", userCV);
 
+        String userCL = controller.generateCoverLetterAsString("thembani@gmail.com", role, false);
+        controller.generateCoverLetterAsDocument("thembani@gmail.com", userCL);
+
 
         // Map<String, String> jobDescr = new HashMap<>();
         // jobDescr.put("email", "LucaShirlow@jourrapide.com");

@@ -4,25 +4,22 @@ import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 
-public class GenerateCoverLetter {
+public class GenerateCoverLetter extends DocumentProcessor {
     String filePath = "src/main/resources/resumes/";
 
     public void generateCoverLetter(String email, String input) {
-        createUserDirectory(email);
-        input = removeMessageBeforeColon(input);
+        String userPath = filePath + email;
+        String docxPath = filePath + email + "/coverletter.docx";
+        String pdfPath = filePath + email + "/coverletter.pdf";
+        String txtPath = filePath + email + "/coverletter.txt";
+        createUserDirectory(userPath);
+        input = super.removeMessageBeforeColon(input);
         generateDocument(email, input);
-        generateTxt(email, input);
-        generatePDF(email, input);
+        super.convertDocxToTxt(docxPath, txtPath);
+        super.convertDocxToPdf(docxPath, pdfPath);
     }
 
     public void generateDocument(String email, String input) {
@@ -33,36 +30,6 @@ public class GenerateCoverLetter {
             System.out.println("Word cover letter created successfully.");
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void generateTxt(String email, String input) {
-        try (FileWriter writer = new FileWriter(filePath + email + "/coverletter.txt")) {
-            writer.write(input);
-            System.out.println("Text cover letter created successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void generatePDF(String email, String input) {
-        Document document = new Document();
-        try (FileOutputStream out = new FileOutputStream(filePath + email + "/coverletter.pdf")) {
-            PdfWriter.getInstance(document, out);
-            document.open();
-            document.add(new Paragraph(input));
-            document.close();
-            System.out.println("PDF cover letter created successfully.");
-        } catch (IOException | DocumentException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Utility method to create user directory if it does not exist
-    public void createUserDirectory(String email) {
-        File directory = new File(filePath + email);
-        if (!directory.exists()) {
-            directory.mkdirs();
         }
     }
 
@@ -109,14 +76,5 @@ public class GenerateCoverLetter {
                 paragraph.setSpacingAfter(100);
             }
         }
-    }
-
-    // Remove everything before the colon for formatting purposes
-    private static String removeMessageBeforeColon(String input) {
-        int colonIndex = input.indexOf(":\n\n**");
-        if (colonIndex != -1 && colonIndex + 1 < input.length()) {
-            return input.substring(colonIndex + 1).trim();
-        }
-        return input;
     }
 }

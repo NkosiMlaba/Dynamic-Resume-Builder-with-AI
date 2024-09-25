@@ -1,26 +1,29 @@
-**Thembani**
 
-**Contact Info**
-thembani3@gmail.com | 074 123 4567 | LinkedIn: thembani3
+Thembani
 
-**Education**
-Bachelor of Science in Computer Science, University of Cape Town, 2015-2019
+Contact Info
+Email: thembani@gmail.com
+Phone:
+Address:
 
-**Experience**
-Software Developer Intern, XYZ Corporation, 2020-present
+Education
+Bachelor of Science in Computer Science, XYZ University (20XX-20XX)
+Bachelor of Science in Software Engineering, ABC University (20XX-20XX)
 
-* Developed and maintained several web applications using Java and Spring Boot
-* Collaborated with cross-functional teams to design and implement software solutions
-* Improved application performance by 30% through optimization and refactoring
+Experience
+Software Developer, DEF Company (20XX-20XX)
+- Developed and maintained multiple software applications using languages such as Java, Python, and C++.
+- Collaborated with cross-functional teams to identify and prioritize project requirements.
+- Implemented automated testing and debugging tools to improve code quality.
 
-**Skills**
+Skills
+- Programming languages: Java, Python, C++, JavaScript
+- Development frameworks: Spring, Django, Flask
+- Database management systems: MySQL, MongoDB
+- Agile development methodologies: Scrum, Kanban
+- Version control systems: Git, SVN
 
-* Programming languages: Java, Python, JavaScript
-* Development frameworks: Spring Boot, Django, React
-* Agile methodologies: Scrum, Kanban
-* Cloud platforms: AWS, Azure
-* Databases: MySQL, MongoDB
-
-**Projects**
-Personal Project: E-commerce platform using React, Node.js, and MongoDB
-Collaborative Project: Chatbot using Java and Spring Boot, presented at the University of Cape Town's TechFest 2020
+Projects
+- [Project Name]: Developed a web-based application using Java and Spring framework that integrates with third-party APIs.
+- [Project Name]: Created a mobile app for Android devices using Java and native Android API.
+- [Project Name]: Built a machine learning model using Python and TensorFlow that predicts patient outcomes.
