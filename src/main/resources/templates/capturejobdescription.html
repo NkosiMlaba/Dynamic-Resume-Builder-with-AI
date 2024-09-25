@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/capture.css" />
     <title>Capture Job Description</title>
 </head>
 <body>
@@ -11,28 +12,38 @@
     <nav id="desktop-nav">
     </nav>
 
-    <!-- capture-job-container -->
-    <div class="capture-job-container">
+    <!-- job-description -->
+    <div class="job-description">
         
+        <div class="title">
+            <h1>Capture Job Description</h1>
+            <p>Enter your job description</p>
+        </div>
+
         <!-- Div for last job description and button to generate from it -->
-        <div th:if="${hasLastJobDescription}">
+        <div id="current-job-description" th:if="${hasLastJobDescription}">
             <h1>Last Job Description</h1>
             <p th:text="${lastJobDescription}">Last job description text goes here</p>
             <form action="/generate-from-last-job" method="post">
                 <button type="submit">Generate from Last Job Description</button>
             </form>
-        </div>
+        </div> <!-- current job description -->
         
-        <form action="/capture-job-description" method="post">
-            <h1>Capture Job Description</h1>
-            <span>Enter the job description</span>
-            
-            <!-- Job Description Input -->
-            <label for="jobdescription">Job Description:</label>
-            <textarea id="jobdescription" name="jobdescription" rows="30" cols="50"></textarea>
-            <button type="submit">Capture</button>
-        </form>
-    </div> <!-- capture-job-container -->
+        <!-- capture job description -->
+        <div id="capture-job-description">
+            <form action="/capture-job-description" method="post">
+                <h1>Capture Job Description</h1>
+                <span>Enter the job description</span>
+                
+                <!-- Job Description Input -->
+                <label for="jobdescription">Job Description:</label>
+                <textarea id="jobdescription" name="jobdescription" required placeholder="Write your job description here..."></textarea>
+                <button id="save-btn" type="submit">Capture</button>
+            </form>
+        </div> <!-- capture job description -->
+
+
+    </div> <!-- job-description -->
 
     <!-- footer -->
     <footer>

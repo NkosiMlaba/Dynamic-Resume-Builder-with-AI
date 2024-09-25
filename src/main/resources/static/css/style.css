@@ -56,6 +56,24 @@ a:hover {
     cursor: default;
 }
 
+.form-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px auto;
+    margin: 20px auto;
+    gap: 0.5rem;
+}
+
+.form-center input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #ebebeb;
+    height: 20px auto;
+    min-width: 50px auto;
+}
+
 
 /* Sign Up / Login*/
 .container {
@@ -69,7 +87,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(132, 132, 138, 0.8);
+    background-color: rgba(206, 206, 206, 0.8);
     border-radius: 10px;
     height: inherit;
     width: 70vw;
@@ -100,95 +118,98 @@ input::placeholder {
 /* FOOTER SECTION */
 
 footer {
-    margin: 0 1rem;
+    margin: 20px auto;
 }
 
 footer p {
     text-align: center;
 }
 
-/* CONTACT */
-
-#contact {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    min-height: 300px;
-}
-
-.contact-info-upper-container {
-    display: flex;
-    justify-content: center;
-    border-radius: 2rem;
-    border: rgb(53, 53, 53) 0.1rem solid;
-    border-color: rgb(163, 163, 163);
-    background: (250, 250, 250);
-    margin: 2rem auto;
-    padding: 0.5rem;
-}
-
-.contact-info-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.contact-info-container p {
-    font-size: larger;
-}
-
-.contact-icon {
-    cursor: default;
-}
-
-.email-icon {
-    height: 2.5rem;
-}
-
-#linkedin-icon-contact {
-    width: 40px;
-    height: auto;
-}
-
-.section__text__p1 {
-    text-align: center;
-}
-
 .title {
-    font-size: 3rem;
+    font-size: 1rem;
     text-align: center;
-}
-
-.toggle-container, .options-block {
-    width: 100%;
     align-items: center;
     justify-content: center;
     justify-items: center;
-    display: flex;
-    flex-direction: row;
 }
 
-.toggle-container button {
-    width: 100%;
+/* Dashboard */
+.box,
+.cover-letter-box,
+.settings-box,
+.generate-resume-box,
+.capture-resume-box {
+    background-color: #ebebeb;
     align-items: center;
     justify-content: center;
     justify-items: center;
-    display: flex;
-    flex-direction: row;
-}
-
-.box, .capture-resume, .generate-resume {
-    background-color: #fff;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
-    padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin: 30px;
     padding: 20px;
     border-radius: 2rem;
-    min-height: 30vh;
+    min-height: 10vh;
     min-width: 30vw;
+}
+
+.options-block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+textarea {
+    width: 100%;
+    height: 100px; 
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #363636;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #111111; /* Darker green on hover */
+}
+
+.form-settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    background-color: #ebebeb;
+    border-radius: 2rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.download {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    background-color: #ebebeb;
+    border-radius: 2rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.download h4,
+.dwonload p,
+.dowload a,
+.download button {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

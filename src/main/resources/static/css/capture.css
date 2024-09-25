@@ -1,0 +1,35 @@
+.resumes,
+.job-description
+.capture-description-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px; 
+}
+
+#currentresume,
+#current-job-description {
+    flex: 1; 
+    padding: 20px; 
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+    margin-right: 20px;
+    background-color: #f9f9f9;
+}
+
+#new-resume-box, 
+#capture-job-description {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#generate-cover-letter-from-new-description,
+#generate-cover-letter-from-last-description,
+#generate-cover-letter-from-resume {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}

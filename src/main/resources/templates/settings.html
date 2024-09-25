@@ -4,40 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <title>User Settings</title>
 </head>
 <body>
-    <!-- Navigation bar -->
-    <nav>
-        <!-- Your navigation elements -->
+
+    <!-- navigation desktop -->
+    <nav id="desktop-nav">
     </nav>
 
     <!-- Settings Container -->
     <div class="settings-container">
-        <h1>Settings</h1>
-        <form action="/settings" method="post">
-            <h2>Select Preferred Document Format</h2>
-
-            <!-- Format Options -->
+        
+        <div class="title">
+            <h1>Settings</h1>
+            <p>Select Preferred Document Format</p>
+        </div>
+        
+        <form class="form-settings" action="/settings" method="post">
             <div class="formats">
+                <input type="radio" id="docx" name="format" value="docx" checked>
+                <label for="docx">DOCX</label><br>
+                
                 <input type="radio" id="txt" name="format" value="txt">
                 <label for="txt">TXT</label><br>
 
                 <input type="radio" id="pdf" name="format" value="pdf">
                 <label for="pdf">PDF</label><br>
 
-                <input type="radio" id="docx" name="format" value="docx">
-                <label for="docx">DOCX</label><br>
             </div>
 
-            <!-- Submit Button -->
-            <button type="submit">Save Settings</button>
+            <button type="submit">Save</button>
         </form>
     </div>
 
     <!-- Footer -->
     <footer>
-        <!-- Your footer elements -->
     </footer>
 
     <script src="/js/commonelements.js"></script>

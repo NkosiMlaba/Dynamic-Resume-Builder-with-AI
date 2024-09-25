@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import za.co.theemlaba.UserController;
 
 public class WebApiStarter {
 
@@ -126,7 +125,8 @@ public class WebApiStarter {
     public static void showResumeCapturePage (Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         if (email != null) {
-            ctx.render("captureresume.html");
+            Map<String, Object> model = controller.hasLastResume(email);
+            ctx.render("captureresume.html", model);
         } else {
             ctx.redirect("/login");
         }
@@ -151,7 +151,6 @@ public class WebApiStarter {
 
     public static void showCaptureCoverLetterPage(Context ctx){
         String email = returnEmailIfValidSession(ctx);
-        
         if (email!= null) {
             Map<String, Object> model = controller.hasLastJobDescription(email);
             ctx.render("capturecoverletter.html", model);
@@ -163,7 +162,6 @@ public class WebApiStarter {
 
     public static void showCaptureJobDescriptionPage(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
-        
         if (email != null) {
             Map<String, Object> model = controller.hasLastJobDescription(email);
             ctx.render("capturejobdescription.html", model);
@@ -185,7 +183,6 @@ public class WebApiStarter {
 
     public static void regenerateResumeAndDownload(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
-
         if (email != null) {
             email = controller.regenerateResume(email);
             downloadResume(ctx);
@@ -211,6 +208,7 @@ public class WebApiStarter {
         Map<String, String> receivedData = extractCoverLetterDescriptionInformation(ctx);
         String email = controller.handleCoverLetterDescription(receivedData);
         if (email != null) {
+            
             ctx.redirect("/download-page-cover-letter");
         } else {
             ctx.redirect("/dashboard");
@@ -266,15 +264,20 @@ public class WebApiStarter {
 
 
     public static void showSettingsPage(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+        if (email == null) {
+            ctx.redirect("/login");
+            return;
+        }
+        
         ctx.render("settings.html");
     }
 
     public static void handleSettingsUpdate(Context ctx) {
-        
         String email = returnEmailIfValidSession(ctx);
-
         if (email == null) {
             ctx.redirect("/login");
+            return;
         }
 
         String selectedFormat = ctx.formParam("format");
@@ -287,11 +290,24 @@ public class WebApiStarter {
     }
 
     public static void showDownloadPage(Context ctx) {
+        String email = returnEmailIfValidSession(ctx);
+        if (email == null) {
+            ctx.redirect("/login");
+            return;
+        }
+
         ctx.render("download.html");
     }
 
     public static void showDownloadCoverLetter(Context ctx) {
-        ctx.render("downloadcoverletter.html");
+        String email = returnEmailIfValidSession(ctx);
+        if (email == null) {
+            ctx.redirect("/login");
+            return;
+        }
+
+        Map<String, Object> model = controller.hasLastJobDescription(email);
+        ctx.render("downloadcoverletter.html", model);
     }
 
     public static void downloadResume(Context ctx) {

@@ -11,22 +11,28 @@
     <nav id="desktop-nav">
     </nav>
 
-    <div>
-        Regenerate if something doesn't seem right...
-        <h2>Regenerate from Last Job description</h2>
-        <a href="/regenerate-cover-letter-from-last"><button>Regenerate</button></a>
+    <div class="title">
+        <h1>Download Cover Letter</h1>
+        <p>Choose a download option below</p>
     </div>
 
-    <div>
-        Regenerate if something doesn't seem right...
-        <h2>Regenerate Cover Letter From Resume</h2>
-        <a href="/regenerate-cover-letter"><button>Regenerate</button></a>
-    </div>
-
-    <div>
+    <div class="download">
         <h1>Your Cover Letter is ready</h1>
         <a href="/download-cover-letter"><button>Download Cover Letter</button></a>
     </div>
+
+    <div class="download" th:if="${hasLastJobDescription}">
+        <h4>Regenerate from Last Job description</h4>
+        <p th:text="${lastJobDescription}">Last job description text goes here</p>
+        <a href="/regenerate-cover-letter-from-last"><button>Regenerate</button></a>
+    </div>
+
+    <div class="download">
+        <h4>Regenerate Cover Letter From Resume</h4>
+        <a href="/regenerate-cover-letter"><button>Regenerate</button></a>
+    </div>
+
+    
     
 
     <!-- footer -->

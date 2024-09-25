@@ -9,15 +9,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 import kong.unirest.json.JSONObject;
 
 public class Llama3Request {
-    static String role = "Software Developer";
-    static String Cv = readFile("input.txt").trim().replace("\n", "").replace("\\", "");
-
-    public static String main(String[] args) {
-        role = args.length > 1 ? args[1] : "Software developer";
-        Llama3Request script = new Llama3Request();
-        String content = script.generateCVFromLlama(Cv, role);
-        return content;
-    }
     
     public String generateCVFromLlama (String existingResume, String jobDescription) {
         Dotenv dotenv = Dotenv.configure().load();
@@ -34,17 +25,7 @@ public class Llama3Request {
         String prompt = beforeRolePrompt + jobDescription + " using this cv '" + existingResume + "',"
                 + prompt1 + prompt2 + prompt3;
         HttpResponse<JsonNode> response = sendGroqRequest(makeJsonString(prompt), apiKey);
-
-        System.out.println(response.getStatus());
-        JsonNode jsonObject = response.getBody();
-        System.out.println(jsonObject.toString());
-
-        JSONObject choicesObject = jsonObject.getObject()
-                                             .getJSONArray("choices")
-                                             .getJSONObject(0)
-                                             .getJSONObject("message");
-        String content = choicesObject.getString("content");
-        System.out.println(content);
+        String content = extractResponseString(response);
         return content;
     }
 
@@ -64,17 +45,18 @@ public class Llama3Request {
         }
         
         HttpResponse<JsonNode> response = sendGroqRequest(makeJsonString(prompt), apiKey);
+        String content = extractResponseString(response);
+        
+        return content;
+    }
 
-        System.out.println(response.getStatus());
+    public String extractResponseString (HttpResponse<JsonNode> response) {
         JsonNode jsonObject = response.getBody();
-        System.out.println(jsonObject.toString());
-
         JSONObject choicesObject = jsonObject.getObject()
                                              .getJSONArray("choices")
                                              .getJSONObject(0)
                                              .getJSONObject("message");
         String content = choicesObject.getString("content");
-        System.out.println(content);
         return content;
     }
 

@@ -4,31 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Updates</title>
+    <link rel="stylesheet" href="/css/capture.css" />
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+    <!-- navigation desktop -->
+    <nav id="desktop-nav">
+    </nav>
+    
+    <div class="title">
+        <h1>Capture Resume</h1>
+        <p>Enter your resume</p>
+    </div>
     
     <div class="resumes">
         
+
         <!-- current resume -->
-        <div id="currentresume">
-            
+        <div id="currentresume" th:if="${hasResume}">
+            <h1>Current Resume</h1>
+            <p th:text="${lastResume}">Last resume text</p>
         </div> <!-- current resume -->
 
         <!-- new resume box -->
-        <div>
+        <div id="new-resume-box">
+            <h1>Capture Your New Resume</h1>
             <form action="/capture-resume" method="post">
                 <!-- textbox -->
-                <label for="resume">Job Description:</label>
-                <input type="text" id="resume" name="resume" placeholder="Write your updated resume here...">
+                <label for="resume">Resume:</label>
+                <textarea id="resume" name="resume" placeholder="Write your updated resume here..." required></textarea>
 
                 <!-- save button -->
-                <button id="save-btn" onclick="captureResume()">Save</button>
+                <button id="save-btn" type="submit">Save</button>
             </form>
         </div> <!-- new resume box -->
 
     </div> <!-- resumes -->
     
-    <script src="/js/commonelements.js"></script>
+    <!-- footer -->
+    <footer>
+    </footer>
+
+    <script src="/js/captureresume.js"></script>
 </body>
 </html>

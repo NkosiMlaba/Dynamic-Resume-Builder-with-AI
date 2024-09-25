@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/capture.css" />
+
     <title>Capture Cover Letter Description</title>
 </head>
 <body>
@@ -11,37 +13,42 @@
     <nav id="desktop-nav">
     </nav>
 
-    <!-- capture-job-container -->
-    <div class="capture-job-container">
+    <div class="title">
+        <h1>Capture Cover Letter</h1>
+        <p>Capture your cover letter below</p>
+    </div>
+
+    <!-- capture-description-container -->
+    <div class="capture-description-container">
         
-        <div>
+        <div id="generate-cover-letter-from-resume">
             <h1>Generate cover letter using resume only</h1>
             <a href="/generate-cover-letter"><button>Generate</button></a>
         </div>
 
 
         <!-- Div for last job description and button to generate from it -->
-        <div th:if="${hasLastJobDescription}">
-            <h1>Last Job Description</h1>
+        <div id="generate-cover-letter-from-last-description" th:if="${hasLastJobDescription}">
+            <h1>Generate cover letter for last job description</h1>
             <p th:text="${lastJobDescription}">Last job description text goes here</p>
             <form action="/generate-cover-letter-from-last" method="post">
                 <button type="submit">Generate</button>
             </form>
         </div>
         
-        <div>
+        <div id="generate-cover-letter-from-new-description">
             <form action="/capture-cover-letter-description" method="post">
-                <h1>Capture Cover Letter Description</h1>
+                <h1>Capture cover letter description</h1>
                 <span>Enter the description</span>
                 
                 <!-- Job Description Input -->
                 <label for="coveletterdescription">Cover Letter Description:</label>
-                <textarea id="coveletterdescription" name="coveletterdescription" rows="30" cols="50"></textarea>
+                <textarea id="coveletterdescription" name="coveletterdescription" required placeholder="Write the cover letter requirements here..."></textarea>
                 <button type="submit">Capture</button>
             </form>
         </div>
         
-    </div> <!-- capture-job-container -->
+    </div> <!-- capture-description-container -->
 
     <!-- footer -->
     <footer>

@@ -12,40 +12,36 @@
     <nav id="desktop-nav">
     </nav>
 
+    <div class="title">
+        <h1>Create Account</h1>
+        <span>use your email for registeration</span>
+    </div>
+
+
     <div class="container" id="container">
         <div class="form-container">
-            <form id="create" action="/register" method="post">
-                <h1>Create Account</h1>
-                <span>use your email for registeration</span>
-                
+            
+            
+            <form class="form-center" action="/register" method="post">
                 <label for="firstname">First name:</label>
                 <input type="text" name="firstname" required autofocus placeholder="First Name" id="firstname">
-
                 <label for="lastname">Last name:</label>
                 <input type="text" name="lastname" required placeholder="Last Name" id="lastname">
-                
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required placeholder="Email">
-
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password"
                     required placeholder="Password" >
-
                 <label for="confirmpassword">Confirm Password:</label>
                 <input type="password" id="confirmpassword" name="confirmpassword"
                     required placeholder="Password">
                 
                 <button type="submit">Sign Up</button>
             </form>
+
+
         </div>
     </div>
-
-    <!-- pop up -->
-    <div></div>
-
-    <!-- Contact details-->
-    <section id="contact">
-    </section>
 
     <!-- footer -->
     <footer>

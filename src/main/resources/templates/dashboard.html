@@ -14,37 +14,36 @@
 
 
     <div class="">
-        <h1>Dashboard</h1>
-        <p>Welcome to your dashboard. Here you can manage your resume, view your applications, and manage your account settings.</p>
+        <div class="title">
+            <h1>Dashboard</h1>
+            <p>Welcome to your dashboard. Here you can manage your resume, create cover letters and manage your account settings.</p>
+        </div>
+        
 
         <!-- blocks -->
         <div class="options-block">
-            <div class="capture-resume">
+            <div class="capture-resume-box">
                 <h2>Update your resume</h2>
                 <form action="/capture-resume" method="get">
                     <button type="submit">Capture</button>
                 </form>
             </div><!-- capture-resume -->
 
-            <div class="generate-resume">
+            <div class="generate-resume-box">
                 <h2>Generate Resume From a New Job Description</h2>
                 <form action="/capture-job-description" method="get">
                     <button type="submit">Generate</button>
                 </form>
             </div><!-- generate-resume -->
 
-            <!-- todo change class name to cover letter -->
-            <br>
-            <div>
+            <div class="cover-letter-box">
                 <h2>Generate Cover Letter</h2>
                 <form action="/capture-cover-letter-description" method="get">
                     <button type="submit">Generate</button>
                 </form>
             </div>
 
-            <!-- TODO change class name to settings -->
-            <br>
-            <div>
+            <div class="settings-box">
                 <h2>Settings</h2>
                 <form action="/settings" method="get">
                     <button type="submit">Settings</button>

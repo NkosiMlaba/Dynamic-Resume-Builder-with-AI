@@ -412,7 +412,7 @@ public class UserManager {
     }
 
     /**
-     * Fetches the cv of the user in the database.
+     * Fetches the last used job description of the user in the database.
      * @param userEmail The user's email address.
      */
     public boolean hasExistingJobDescription (String userEmail) {
@@ -423,6 +423,29 @@ public class UserManager {
             statement.setString(1, userEmail);
             ResultSet resultSet = statement.executeQuery();
             String data = resultSet.getString("jobdescription");
+            if (data != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Fetches the resume of the user in the database.
+     * @param userEmail The user's email address.
+     */
+    public boolean hasExistingResume (String userEmail) {
+        String selectQuery = "SELECT resume FROM Resumes WHERE resume_email = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement statement = conn.prepareStatement(selectQuery)) {
+            statement.setString(1, userEmail);
+            ResultSet resultSet = statement.executeQuery();
+            String data = resultSet.getString("resume");
             if (data != null) {
                 return true;
             } else {

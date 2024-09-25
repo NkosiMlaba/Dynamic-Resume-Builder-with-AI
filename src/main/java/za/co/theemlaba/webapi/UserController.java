@@ -1,4 +1,4 @@
-package za.co.theemlaba;
+package za.co.theemlaba.webapi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +46,7 @@ public class UserController {
             database.updateUserResume(email, resume);
             return email;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -107,6 +108,7 @@ public class UserController {
             jobDescription = cleanData(jobDescription);
             String email = receivedData.get("email");
             String existingResume = database.fetchUserResume(email);
+            existingResume = cleanData(existingResume);
             String stringCV = generateResumeAsString(existingResume, jobDescription);
             generateResumeAsDocument(email, stringCV);
             database.updateUserJobDescription(email, jobDescription);
@@ -123,6 +125,7 @@ public class UserController {
             coverLetterDescription = cleanData(coverLetterDescription);
             String email = receivedData.get("email");
             String existingResume = database.fetchUserResume(email);
+            existingResume = cleanData(existingResume);
             String stringCoverLetter = generateCoverLetterAsString(existingResume, coverLetterDescription, true);
             generateCoverLetterAsDocument(email, stringCoverLetter);
             return email;
@@ -149,14 +152,21 @@ public class UserController {
         return null;
     }
 
-    public static String cleanData (String data) {
-        data = data.replaceAll("\\n{2,}", "\n");
-        data = data.replace("\"", "\\\"")
-                    .replace("\\", "\\\\")
-                    .replace("\n", "\\n")
-                    .replace("\r", "");
+    public static String cleanData(String data) {
+        // Remove problematic carriage return characters
+        data = data.replace("\r", " ");
+    
+        // Replace multiple newlines with a single newline
+        data = data.replaceAll("\\n{2,}", " ");
+    
+        // Escape double quotes and backslashes for JSON
+        data = data.replace("\"", " ")
+                   .replace("\\", " ")
+                   .replace("\n", " ");
+    
         return data;
     }
+    
 
     public String getResumeFilePath(String email) {
         String preferrefFormat = database.fetchUserDocTypePreference(email);
@@ -170,6 +180,7 @@ public class UserController {
 
     public String regenerateResume (String email) {
         String existingResume = database.fetchUserResume(email);
+        existingResume = cleanData(existingResume);
         String jobDescription = database.fetchUserJobDescription(email);
         String stringCV = generateResumeAsString(existingResume, jobDescription);
         generateResumeAsDocument(email, stringCV);
@@ -178,6 +189,7 @@ public class UserController {
 
     public String generateCoverLetter (String email) {
         String existingResume = database.fetchUserResume(email);
+        existingResume = cleanData(existingResume);
         String stringCV = generateCoverLetterAsString(existingResume, "", false);
         generateCoverLetterAsDocument(email, stringCV);
         return email;
@@ -186,6 +198,8 @@ public class UserController {
     public String generateCoverLetterFromDescription (String email) {
         String existingResume = database.fetchUserResume(email);
         String coverLetterDescription = database.fetchUserJobDescription(email);
+        existingResume = cleanData(existingResume);
+        coverLetterDescription = cleanData(coverLetterDescription);
         String stringCV = generateCoverLetterAsString(existingResume, coverLetterDescription, true);
         generateCoverLetterAsDocument(email, stringCV);
         return email;
@@ -206,4 +220,19 @@ public class UserController {
         return model;
     }
     
+
+    public Map<String, Object> hasLastResume (String email) {
+        Map<String, Object> model = new HashMap<>();
+        
+        if (database.hasExistingResume(email)) {
+            String lastResume = database.fetchUserResume(email);
+            model.put("hasResume", lastResume!= null);
+            model.put("lastResume", lastResume);
+        } else {
+            model.put("hasResume", false);
+            model.put("lastResume", null);
+        }
+        
+        return model;
+    }
 }
