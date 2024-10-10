@@ -32,11 +32,19 @@ public class Llama3Request {
     public Dotenv loadEnvObject() {
         try {
             return Dotenv.configure().load();
-        } catch (Exception e) {
-            // deployment environment
-            return Dotenv.configure().directory("/app").load();
+        } catch (Exception e1) {
+            try {
+                return Dotenv.configure().directory("/app").load();
+            } catch (Exception e2) {
+                try {
+                    return Dotenv.configure().directory("/etc/secrets").load();
+                } catch (Exception e3) {
+                    throw new IllegalStateException("Could not load environment variables from both the root, /app and /etc/secrets", e2);
+                }
+            }
         }
     }
+    
 
     public String generateCoverLetterFromLlama (String existingResume, String coverLetter, boolean includesDescription) {
         Dotenv dotenv = loadEnvObject();
