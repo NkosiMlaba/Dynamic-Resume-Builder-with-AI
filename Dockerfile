@@ -1,13 +1,15 @@
-FROM maven:latest AS build
+FROM openjdk:22-jdk-slim AS build
+
+RUN apt-get update && apt-get install -y maven && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY pom.xml ./
 COPY src ./src
 
-RUN mvn package -DskipTests -X
+RUN mvn package -DskipTests -e -X
 
-FROM openjdk:17-jdk-slim
+FROM openjdk:22-jdk-slim
 
 WORKDIR /app
 
