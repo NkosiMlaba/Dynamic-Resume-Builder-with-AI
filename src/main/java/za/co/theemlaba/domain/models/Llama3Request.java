@@ -39,7 +39,7 @@ public class Llama3Request {
     }
 
     public String generateCoverLetterFromLlama (String existingResume, String coverLetter, boolean includesDescription) {
-        Dotenv dotenv = Dotenv.configure().load();
+        Dotenv dotenv = loadEnvObject();
         String apiKey = dotenv.get("GROQ_API_KEY");
 
         if (apiKey == null) {
