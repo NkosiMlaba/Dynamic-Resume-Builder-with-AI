@@ -14,7 +14,8 @@ FROM openjdk:22-jdk-slim
 WORKDIR /app
 
 COPY --from=build /app/target/resume-builder-1.0-SNAPSHOT-webapi-jar-with-dependencies.jar ./resume-builder-webapi.jar
+COPY --from=build /app/src/main/resources/static ./src/main/resources/static
 
-EXPOSE 5050
+EXPOSE 7000
 
 ENTRYPOINT ["java", "-jar", "resume-builder-webapi.jar"]
