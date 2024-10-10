@@ -11,7 +11,7 @@ import kong.unirest.json.JSONObject;
 public class Llama3Request {
     
     public String generateCVFromLlama (String existingResume, String jobDescription) {
-        Dotenv dotenv = Dotenv.configure().load();
+        Dotenv dotenv = loadEnvObject();
         String apiKey = dotenv.get("GROQ_API_KEY");
         String prompt1 = dotenv.get("Ins1");
         String prompt2 = dotenv.get("Ins2");
@@ -27,6 +27,15 @@ public class Llama3Request {
         HttpResponse<JsonNode> response = sendGroqRequest(makeJsonString(prompt), apiKey);
         String content = extractResponseString(response);
         return content;
+    }
+
+    public Dotenv loadEnvObject() {
+        try {
+            return Dotenv.configure().load();
+        } catch (Exception e) {
+            // deployment environment
+            return Dotenv.configure().directory("/app").load();
+        }
     }
 
     public String generateCoverLetterFromLlama (String existingResume, String coverLetter, boolean includesDescription) {
