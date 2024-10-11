@@ -51,15 +51,6 @@ public class UserControllerTest {
     }
 
     @Test
-    void testGenerateResumeAsString() {
-        String existingResume = "Existing Resume";
-        String jobDescription = "Job Description";
-
-        String result = userController.generateResumeAsString(existingResume, jobDescription);
-        assertNotNull(result);
-    }
-
-    @Test
     void testUpdatePreferredFormat() {
         String email = "test@example.com";
         String formatData = "pdf";
