@@ -15,6 +15,11 @@ clean:
 build:
 	mvn package
 
+# Build the project and package it into a JAR file
+.PHONY: build-no-tests
+build-no-tests:
+	mvn package -DskipTests
+
 # Run tests
 .PHONY: tests
 tests:
