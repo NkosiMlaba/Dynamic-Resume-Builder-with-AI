@@ -177,25 +177,25 @@
                 <version>3.3.0</version>
                 <executions>
                     <execution>
-                            <id>make-webapi-jar</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                            <configuration>
-                                <descriptorRefs>
-                                    <descriptorRef>jar-with-dependencies</descriptorRef>
-                                </descriptorRefs>
-                                <finalName>${project.artifactId}-${project.version}-webapi</finalName>
-                                <archive>
-                                    <manifest>
-                                        <mainClass>za.co.theemlaba.webapi.WebApiStarter</mainClass>
-                                    </manifest>
-                                </archive>
-                                <classifier>webapi</classifier>
-                            </configuration>
-                        </execution>
-                    </executions>
+                        <id>make-webapi-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>${project.artifactId}-${project.version}-webapi</finalName>
+                            <archive>
+                                <manifest>
+                                    <mainClass>za.co.theemlaba.webapi.WebApiStarter</mainClass>
+                                </manifest>
+                            </archive>
+                            <classifier>webapi</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
