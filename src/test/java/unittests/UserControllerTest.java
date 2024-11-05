@@ -1,12 +1,12 @@
 package unittests;
-import za.co.theemlaba.webapi.UserController;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import za.co.theemlaba.webapi.UserController;
 
 public class UserControllerTest {
 
