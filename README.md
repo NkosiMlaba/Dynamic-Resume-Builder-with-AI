@@ -51,7 +51,7 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 ## Contributor
 
-Nkosikhona Mlaba (nkosimlaba397@gmail.com)
+Nkosikhona Mlaba
 
 ## License
 
