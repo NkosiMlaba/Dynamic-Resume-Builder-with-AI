@@ -16,5 +16,5 @@ desktopNavSection.innerHTML = `
 var footerElement = document.querySelector('footer');
 footerElement.innerHTML = `
 <p style="margin-bottom: 50px">
-    Nkosikhona Mlaba. All rights reserved
+    © Copyright 2024 | Nkosikhona Mlaba | All rights reserved
 </p>`
