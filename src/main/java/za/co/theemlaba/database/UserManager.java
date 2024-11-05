@@ -14,8 +14,6 @@ public class UserManager {
 
     public UserManager() {
         setDatabaseName("Database.db");
-        initialiseDatabase();
-        createEmailIndex();
     }
 
     /**
@@ -28,8 +26,10 @@ public class UserManager {
      *                     established.
      */
     public void setDatabaseName(String databaseName) {
-        createDatabaseDirectory(); // Ensure the directory exists
+        createDatabaseDirectory();
         this.URL = "jdbc:sqlite:" + DATABASE_DIR + File.separator + databaseName;
+        initialiseDatabase();
+        createEmailIndex();
     }
 
     /**
