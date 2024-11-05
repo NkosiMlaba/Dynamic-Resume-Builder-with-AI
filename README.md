@@ -25,6 +25,7 @@ Features implemented thus far are (not an exhaustive list):
 - Internet browser
 - SQLite
 - Maven
+- Make
 
 ## Additional requirements:
 - Internet access
