@@ -479,4 +479,19 @@ public class UserManager {
         createJobdescriptionsEntry(email);
         createPreferencesEntry(email, format);
     }
+
+    /**
+     * Attempts to clean any string by removing foreign characters
+     * @param data the string to clean
+     * @return data the cleaned string
+     */
+    public String cleanData (String data) {
+        data = data.replaceAll("\\n{2,}", "\n");
+        data = data.replace("\"", "\\\"")
+                    .replace("\\", "\\\\")
+                    .replace("\n", "\\n")
+                    .replace("\r", "");
+        
+        return data;
+    }
 }
