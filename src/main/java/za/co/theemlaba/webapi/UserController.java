@@ -18,7 +18,10 @@ public class UserController {
     public UserController() {
         
     }
-
+    
+    public UserManager getUserManagerDatabase() {
+        return database;
+    }
 
     /**
      * Handles a command by creating a new command object, executing it, and returning the response as a JSON string.
