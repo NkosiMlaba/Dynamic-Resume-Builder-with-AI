@@ -153,17 +153,11 @@ public class UserController {
     }
 
     public static String cleanData(String data) {
-        // Remove problematic carriage return characters
         data = data.replace("\r", " ");
-    
-        // Replace multiple newlines with a single newline
         data = data.replaceAll("\\n{2,}", " ");
-    
-        // Escape double quotes and backslashes for JSON
         data = data.replace("\"", " ")
                    .replace("\\", " ")
                    .replace("\n", " ");
-    
         return data;
     }
     
