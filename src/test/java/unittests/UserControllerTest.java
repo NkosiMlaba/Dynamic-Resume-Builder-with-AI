@@ -1,5 +1,6 @@
 package unittests;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
@@ -15,6 +16,12 @@ public class UserControllerTest {
     @BeforeEach
     void setUp() {
         userController = new UserController();
+        userController.getUserManagerDatabase().setDatabaseName("TestDatabase2.db");
+    }
+
+    @AfterEach
+    void tearDown() {
+        userController.getUserManagerDatabase().deleteAllUserData();
     }
 
     @Test
