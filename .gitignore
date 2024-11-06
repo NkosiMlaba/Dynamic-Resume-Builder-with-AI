@@ -14,5 +14,4 @@ output2.txt
 GeneratedCV.docx
 input.txt
 resumes
-TestDatabase.db
-TestDatabase1.db
+TestDatabase*
