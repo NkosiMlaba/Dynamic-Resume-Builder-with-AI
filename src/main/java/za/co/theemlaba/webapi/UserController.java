@@ -13,6 +13,7 @@ public class UserController {
     private GenerateResume generator = new GenerateResume();
     private GenerateCoverLetter generatorCoverLetter = new GenerateCoverLetter();
     private String defaultDocType = ".docx";
+    private String resumesFolder = "src/main/resources/resumes/";
 
 
     public UserController() {
@@ -167,12 +168,12 @@ public class UserController {
 
     public String getResumeFilePath(String email) {
         String preferrefFormat = database.fetchUserDocTypePreference(email);
-        return "src/main/resources/resumes/" + email + "/resume" + preferrefFormat;
+        return resumesFolder + email + "/resume" + preferrefFormat;
     }
 
     public String getCoverLetterFilePath(String email) {
         String preferrefFormat = database.fetchUserDocTypePreference(email);
-        return "src/main/resources/resumes/" + email + "/coverletter" + preferrefFormat;
+        return resumesFolder + email + "/coverletter" + preferrefFormat;
     }
 
     public String regenerateResume (String email) {
