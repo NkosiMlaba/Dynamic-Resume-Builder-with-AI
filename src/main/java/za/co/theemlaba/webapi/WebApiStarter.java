@@ -65,18 +65,33 @@ public class WebApiStarter {
         app.post("/settings", WebApiStarter::handleSettingsUpdate);
     }
 
+    /**
+     * Renders the home page.
+     *
+     * @param ctx The Javalin context object.
+     */
     public static void showHomePage(Context ctx) {
         ctx.render("home.html");
     }
-
+    
+    /**
+     * Renders the registration page.
+     *
+     * @param ctx The Javalin context object.
+     */
     public static void showRegistrationPage(Context ctx) {
         ctx.render("createuser.html");
     }
-
+    
+    /**
+     * Handles the registration process.
+     *
+     * @param ctx The Javalin context object.
+     */
     public static void handleRegistration(Context ctx) {
         Map<String, String> receivedData = extractRegistrationInformation(ctx);
         String email = controller.registerUser(receivedData);
-
+    
         if (email != null) {
             ctx.sessionAttribute("email", email);
             ctx.sessionAttribute("sessionId", ctx.req().getSession().getId());
