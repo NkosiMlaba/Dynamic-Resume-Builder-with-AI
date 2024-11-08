@@ -130,10 +130,20 @@ public class WebApiStarter {
         }
     }
 
+    /**
+     * Logs the incoming HTTP request.
+     *
+     * @param ctx The Javalin context object containing information about the request.
+     */
     public static void logRequest(Context ctx) {
         logger.info("Received {} request to {}", ctx.method(), ctx.url().toString());
     }
 
+    /**
+     * Logs the HTTP response.
+     *
+     * @param ctx The Javalin context object containing information about the response.
+     */
     public static void logResponse(Context ctx) {
         logger.info("Responded with status {}", ctx.status());
     }
