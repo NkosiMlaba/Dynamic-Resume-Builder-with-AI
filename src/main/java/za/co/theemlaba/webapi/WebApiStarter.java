@@ -102,10 +102,20 @@ public class WebApiStarter {
         }
     }
 
+    /**
+     * Renders the login page.
+     *
+     * @param ctx The Javalin context object.
+     */
     public static void showLoginPage(Context ctx) {
         ctx.render("login.html");
     }
-
+    
+    /**
+     * Handles the login process.
+     *
+     * @param ctx The Javalin context object.
+     */
     public static void handleLogin(Context ctx) {
         Map<String, String> receivedData = extractLoginInformation(ctx);
         String email = controller.authenticateUser(receivedData);
