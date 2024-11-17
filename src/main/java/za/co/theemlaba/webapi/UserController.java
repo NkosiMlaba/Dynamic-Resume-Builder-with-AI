@@ -43,6 +43,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Handles the storage of resume data for a user.
+     *
+     * @param receivedData A map containing the resume data and email of the user.
+     * @return The email of the user whose resume data was stored, or null if an exception occurred.
+     */
     public String handleStoreResumeData(Map<String, String> receivedData) {
         try {
             String resume = receivedData.get("resume");
@@ -55,6 +61,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Authenticates a user based on the provided email and password.
+     *
+     * @param receivedData A map containing the email and password of the user.
+     * @return The email of the authenticated user, or null if the user is not found or the password is incorrect.
+     */
     public String authenticateUser(Map<String, String> receivedData) {
         try {
             if (database.isExistingUser(receivedData.get("email"))) {
@@ -73,6 +85,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Registers a new user with the provided information.
+     *
+     * @param receivedData A map containing the user's first name, last name, email, password, and confirmed password.
+     * @return The email of the registered user, or null if the passwords do not match or the user already exists.
+     */
     public String registerUser (Map<String, String> receivedData) {
         try {
             if (!receivedData.get("password").equals(receivedData.get("confirmpassword"))) {
@@ -90,22 +108,55 @@ public class UserController {
         }
     }
 
+    /**
+     * Generates a resume as a string based on the existing resume and job description.
+     *
+     * @param existingResume The existing resume of the user.
+     * @param jobDescription The job description for the user.
+     * @return The generated resume as a string.
+     */
     public String generateResumeAsString (String existingResume, String jobDescription) {
         return request.generateCVFromLlama(existingResume, jobDescription);
     }
 
+    /**
+     * Generates a resume document for the user with the provided email and resume string.
+     *
+     * @param email The email of the user.
+     * @param stringCV The generated resume as a string.
+     */
     public void generateResumeAsDocument (String email, String stringCV) {
         generator.generateCV(email, stringCV);
     }
 
+    /**
+     * Generates a cover letter as a string based on the existing resume, job description, and whether the job description should be included.
+     *
+     * @param existingResume The existing resume of the user.
+     * @param jobDescription The job description for the user.
+     * @param includesDescription Whether the job description should be included in the cover letter.
+     * @return The generated cover letter as a string.
+     */
     public String generateCoverLetterAsString (String existingResume, String jobDescription, boolean includesDescription) {
         return request.generateCoverLetterFromLlama(existingResume, jobDescription, includesDescription);
     }
 
+    /**
+     * Generates a cover letter document for the user with the provided email and cover letter string.
+     *
+     * @param email The email of the user.
+     * @param stringCoverLetter The generated cover letter as a string.
+     */
     public void generateCoverLetterAsDocument (String email, String stringCoverLetter) {
         generatorCoverLetter.generateCoverLetter(email, stringCoverLetter);
     }
 
+    /**
+     * Handles the storage of a job description for a user, generates a new resume, and updates the user's job description.
+     *
+     * @param receivedData A map containing the job description and email of the user.
+     * @return The email of the user whose job description was updated, or null if an exception occurred.
+     */
     public String handleJobDescription (Map<String, String> receivedData) {
         try {
             String jobDescription = receivedData.get("jobdescription");
@@ -123,6 +174,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Handles the storage of a cover letter description for a user, generates a new cover letter, and updates the user's cover letter.
+     *
+     * @param receivedData A map containing the cover letter description and email of the user.
+     * @return The email of the user whose cover letter was updated, or null if an exception occurred.
+     */
     public String handleCoverLetterDescription (Map<String, String> receivedData) {
         try {
             String coverLetterDescription = receivedData.get("coveletterdescription");
