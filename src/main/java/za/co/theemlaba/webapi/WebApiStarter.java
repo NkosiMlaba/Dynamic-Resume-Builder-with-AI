@@ -148,6 +148,11 @@ public class WebApiStarter {
         logger.info("Responded with status {}", ctx.status());
     }
 
+    /**
+     * Renders the dashboard page for the user with a valid session.
+     *
+     * @param ctx The Javalin context object.
+     */
     public static void showDashboard(Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         if (email != null) {
@@ -157,6 +162,11 @@ public class WebApiStarter {
         }
     }
 
+    /**
+     * Renders the resume capture page for the user with a valid session.
+     *
+     * @param ctx The Javalin context object.
+     */
     public static void showResumeCapturePage (Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         if (email != null) {
@@ -166,6 +176,7 @@ public class WebApiStarter {
             ctx.redirect("/login");
         }
     }
+    
 
     public static void handleResumeUpdate (Context ctx) {
         String email = returnEmailIfValidSession(ctx);
