@@ -5,8 +5,14 @@ This is a program designed to help job seekers create professional, optimised re
 
 ## View live site [here](https://dynamic-resume-builder-with-ai.onrender.com/):
 
-## Output ([gallery](program-output/Gallery.md))
-![Demo](program-output/4.png)
+## Output Gallery ([see all screenshots](program-output/Gallery.md))
+
+## Screenshot Gallery:
+Here are some screenshots of the application in action:
+
+| ![Demo](program-output/1.png) | ![Demo](program-output/3.png) |
+|-------------------------------|-------------------------------|
+| ![Demo](program-output/4.png) | ![Demo](program-output/7.png) |
 
 ## Project Status ![Status](https://img.shields.io/badge/status-completed-brightgreen)
 
