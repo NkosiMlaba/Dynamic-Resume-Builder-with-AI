@@ -178,6 +178,11 @@ public class WebApiStarter {
     }
     
 
+    /**
+     * Handles the update of a user's resume. Extracts the resume information from the request context, associates the email with the resume data, and stores the resume data. Redirects the user to the dashboard or the resume capture page based on the result of the resume data storage.
+     *
+     * @param ctx The Javalin context object containing information about the request.
+     */
     public static void handleResumeUpdate (Context ctx) {
         String email = returnEmailIfValidSession(ctx);
         
@@ -195,6 +200,11 @@ public class WebApiStarter {
         }
     }
 
+    /**
+     * Renders the capture cover letter page for the user with a valid session. Retrieves the last job description for the user and passes it to the view.
+     *
+     * @param ctx The Javalin context object.
+     */
     public static void showCaptureCoverLetterPage(Context ctx){
         String email = returnEmailIfValidSession(ctx);
         if (email!= null) {
