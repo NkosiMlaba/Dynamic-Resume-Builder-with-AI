@@ -3,8 +3,6 @@
 ## Project Description:
 This is a program designed to help job seekers create professional, optimised resumes that stand out to recruiters and pass through Applicant Tracking Systems (ATS).
 
-## View live site [here](https://dynamic-resume-builder-with-ai.onrender.com/):
-
 ## Output Gallery ([see all screenshots](program-output/Gallery.md))
 
 ## Screenshot Gallery:
