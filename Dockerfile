@@ -7,7 +7,7 @@ WORKDIR /app
 COPY pom.xml ./
 COPY src ./src
 
-RUN mvn package -DskipTests -e -X
+RUN mvn package -DskipTests
 
 FROM openjdk:22-jdk-slim
 
